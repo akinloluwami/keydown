@@ -75,7 +75,7 @@ const MeSettings = () => {
         </div>
 
         <button className="bg-white text-black py-3 font-semibold text-xl w-fit px-10">
-          save changes
+          Save changes
         </button>
       </div>
     </DashboardLayout>
