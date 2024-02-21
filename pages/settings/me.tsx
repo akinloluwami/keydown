@@ -13,8 +13,20 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="blog title"
+            placeholder="Blog title"
           />
+        </div>
+        <div className="">
+          <p className="text-lg mb-2">Website</p>
+          <input
+            type="text"
+            className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
+            placeholder="e.g akinkunmi.com"
+          />
+          <p className="font-normal mt-1 text-that-grey-1">
+            If you have a personal site on the web other than your Keydown blog,
+            we’ll link to it.
+          </p>
         </div>
 
         <div className="">
