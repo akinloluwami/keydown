@@ -44,7 +44,7 @@ const Settings = () => {
           <p className="font-normal mt-1 text-that-grey-1">About your blog.</p>
         </div>
         <button className="bg-white text-black py-3 font-semibold text-xl w-fit px-10">
-          save changes
+          Save changes
         </button>
       </div>
     </DashboardLayout>
