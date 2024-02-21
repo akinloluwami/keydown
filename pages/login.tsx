@@ -12,15 +12,15 @@ const Login = () => {
           <input
             type="text"
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="username"
+            placeholder="Username"
           />
           <input
             type="password"
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="password"
+            placeholder="Password"
           />
           <button className="bg-white text-black py-3 font-semibold text-xl">
-            login
+            Login
           </button>
           <Link
             href="/forgot"
