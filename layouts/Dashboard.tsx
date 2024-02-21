@@ -13,7 +13,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex">
-      <div className="flex flex-col text-xl gap-y-7 px-20 py-5 border-r border-dashed border-that-grey w-1/4 h-screen">
+      <div className="flex flex-col text-xl gap-y-7 px-20 py-5 border-r border-dashed border-that-grey w-1/4 h-screen fixed">
         <h3 className="font-bold text-2xl">keydown</h3>
         <div className="flex flex-col text-xl gap-y-12 mt-10">
           {pages.map((page, i) => (
@@ -27,7 +27,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           ))}
         </div>
       </div>
-      <div className="py-5 px-10 w-full">{children}</div>
+      <div className="pt-5 pb-24 px-20 w-full ml-[25%]">{children}</div>
     </div>
   );
 };
