@@ -16,6 +16,7 @@ const config: Config = {
       },
       colors: {
         "that-grey": "#333333",
+        "that-grey-1": "#BBBBC4",
       },
     },
   },
