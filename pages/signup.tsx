@@ -12,17 +12,17 @@ const Signup = () => {
           <input
             type="text"
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="email"
+            placeholder="Email"
           />
           <input
             type="text"
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="first name"
+            placeholder="First name"
           />
           <input
             type="password"
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="password"
+            placeholder="Password"
           />
           <div className="flex items-center border border-dashed border-that-grey text-xl pl-3 py-3">
             <input
@@ -33,7 +33,7 @@ const Signup = () => {
             <p className="text-xl font-semibold">.keydown.co</p>
           </div>
           <button className="bg-white text-black py-3 font-semibold text-xl">
-            signup
+            Signup
           </button>
         </form>
       </div>
