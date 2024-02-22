@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         <h3 className="font-bold text-2xl">keydown</h3>
         <div className="flex flex-col text-xl gap-y-12 mt-10">
           {pages.map((page, i) => (
-            <Link href={page.route} key={i}>
+            <Link href={page.route} key={i} className="w-fit">
               {router.pathname.split("/")[1] ===
                 page.route.replace("/", "") && (
                 <span className="mr-2">&gt;</span>
@@ -25,6 +25,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               {page.name}
             </Link>
           ))}
+          <button className="text-left w-fit">Logout</button>
         </div>
       </div>
       <div className="pt-5 pb-24 px-20 w-full ml-[25%]">{children}</div>
