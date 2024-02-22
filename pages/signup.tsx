@@ -41,12 +41,22 @@ const Signup = () => {
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder="Email"
             name="email"
+            onInput={(e) => {
+              const input = e.target as HTMLInputElement;
+              input.value = input.value.toLowerCase();
+            }}
           />
           <input
             type="text"
             className="bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder="First name"
             name="firstname"
+            onInput={(e) => {
+              const input = e.target as HTMLInputElement;
+              input.value =
+                input.value.charAt(0).toUpperCase() +
+                input.value.slice(1).toLowerCase();
+            }}
           />
           <input
             type="password"
@@ -60,6 +70,10 @@ const Signup = () => {
               className="bg-transparent outline-none text-right  placeholder:text-that-grey font-semibold"
               placeholder="username"
               name="username"
+              onInput={(e) => {
+                const input = e.target as HTMLInputElement;
+                input.value = input.value.toLowerCase();
+              }}
             />
             <p className="text-xl font-semibold">.keydown.co</p>
           </div>
