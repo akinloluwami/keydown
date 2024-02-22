@@ -1,5 +1,7 @@
 import { db, users } from "@/lib/db";
 import { lucia } from "@/lib/lucia";
+import { eq } from "drizzle-orm";
+import { generateId } from "lucia";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Argon2id } from "oslo/password";
 import validator from "validator";
@@ -58,7 +60,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  if (!validator.isAlphanumeric(username)) {
+  const usernameRegex = /^[a-zA-Z0-9]+$/;
+  if (!validator.blacklist(username, " ").match(usernameRegex)) {
     res.status(400).json({ message: "Username must be alphanumeric" });
     return;
   }
@@ -75,6 +78,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  const existingUser = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
+
+  if (existingUser.flat().length > 0) {
+    res.status(400).json({ message: "Username is taken" });
+    return;
+  }
+
+  const existingUserEmail = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email));
+
+  if (existingUserEmail.flat().length > 0) {
+    res
+      .status(400)
+      .json({ message: "Email is associated with an existing account" });
+    return;
+  }
+
   const hashedPassword = await new Argon2id().hash(password);
 
   try {
@@ -83,6 +108,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return db.insert(users).values(user);
     };
     const newUser: NewUser = {
+      id: generateId(32),
       email,
       firstname,
       username,
@@ -99,6 +125,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .status(200)
       .end();
   } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
     res.status(500).json({ message: "Something went wrong" });
   }
 };
