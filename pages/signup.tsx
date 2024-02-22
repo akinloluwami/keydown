@@ -1,11 +1,14 @@
 import Header from "@/components/Header";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import { toast } from "sonner";
 
 const Signup = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <div className="h-screen flex flex-col justify-between">
       <Header />
@@ -77,8 +80,15 @@ const Signup = () => {
             />
             <p className="text-xl font-semibold">.keydown.co</p>
           </div>
-          <button className="bg-white text-black py-3 font-semibold text-xl">
-            Signup
+          <button
+            className="bg-white text-black py-3 font-semibold text-xl disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <CgSpinner className="animate-spin" size={28} />
+            ) : (
+              "Signup"
+            )}
           </button>
         </form>
       </div>
