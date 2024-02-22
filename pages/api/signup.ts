@@ -124,9 +124,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     };
     const newUser: NewUser = {
       id: generateId(32),
-      email,
-      firstname,
-      username,
+      email: email.toLowerCase(),
+      firstname:
+        firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase(),
+      username: username.toLowerCase(),
       password: hashedPassword,
     };
     await insertUser(newUser);
