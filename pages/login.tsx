@@ -1,12 +1,13 @@
 import Header from "@/components/Header";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import { toast } from "sonner";
 
 const Login = () => {
   const router = useRouter();
-
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="h-screen flex flex-col justify-between">
       <Header />
@@ -17,6 +18,7 @@ const Login = () => {
           action="/api/login"
           method="POST"
           onSubmit={async (e) => {
+            setIsLoading(true);
             e.preventDefault();
             const formElement = e.target as HTMLFormElement;
             const response = await fetch(formElement.action, {
@@ -28,6 +30,7 @@ const Login = () => {
                 "Content-Type": "application/json",
               },
             });
+            setIsLoading(false);
             if (response.ok) {
               router.push("/dashboard");
             } else {
@@ -52,8 +55,15 @@ const Login = () => {
             placeholder="Password"
             name="password"
           />
-          <button className="bg-white text-black py-3 font-semibold text-xl">
-            Login
+          <button
+            className="bg-white text-black py-3 font-semibold text-xl disabled:opacity-60 disabled:cursor-not-allowed transition-opacity flex items-center justify-center"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <CgSpinner className="animate-spin" size={28} />
+            ) : (
+              "Login"
+            )}
           </button>
           <Link
             href="/forgot"
