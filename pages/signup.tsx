@@ -29,6 +29,7 @@ const Signup = () => {
             });
             if (response.ok) {
               router.push("/dashboard");
+              toast.success("Signup successful");
             } else {
               const data = await response.json();
               toast.error(data.message);
