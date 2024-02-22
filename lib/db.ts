@@ -8,7 +8,7 @@ const pool = new pg.Pool({
 });
 
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   email: text("email").unique().notNull(),
   username: text("username").unique().notNull(),
   password: text("password").notNull(),
@@ -16,7 +16,7 @@ export const users = pgTable("users", {
 });
 
 export const sessions = pgTable("sessions", {
-  id: uuid("id").primaryKey(),
+  id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id),
