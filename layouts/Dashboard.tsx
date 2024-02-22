@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import React, { FormEvent, ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const pages = [
@@ -25,7 +25,20 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               {page.name}
             </Link>
           ))}
-          <button className="text-left w-fit">Logout</button>
+          <form
+            action="/api/auth/logout"
+            method="POST"
+            onSubmit={async (e: FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              const formElement = e.target as HTMLFormElement;
+              await fetch(formElement.action, {
+                method: formElement.method,
+              });
+              router.push("/login");
+            }}
+          >
+            <button className="text-left w-fit">Logout</button>
+          </form>
         </div>
       </div>
       <div className="pt-5 pb-24 px-20 w-full ml-[25%]">{children}</div>
