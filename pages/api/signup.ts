@@ -48,6 +48,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  if (firstname.length < 2) {
+    res
+      .status(400)
+      .json({ message: "Firstname must be at least 2 characters" });
+    return;
+  }
+
+  if (validator.isNumeric(username)) {
+    res.status(400).json({
+      message:
+        "Username must start be alphanumeric when starting with a number",
+    });
+    return;
+  }
+
   if (password.length < 8) {
     res.status(400).json({ message: "Password must be at least 8 characters" });
     return;
