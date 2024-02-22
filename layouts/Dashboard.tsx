@@ -26,7 +26,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             </Link>
           ))}
           <form
-            action="/api/auth/logout"
+            action="/api/logout"
             method="POST"
             onSubmit={async (e: FormEvent<HTMLFormElement>) => {
               e.preventDefault();
