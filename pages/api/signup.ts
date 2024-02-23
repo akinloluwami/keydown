@@ -129,6 +129,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase(),
       username: username.toLowerCase(),
       password: hashedPassword,
+      blogTitle: firstname,
     };
     await insertUser(newUser);
 
