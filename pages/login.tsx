@@ -9,7 +9,7 @@ const Login = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="h-screen flex flex-col justify-between pb-10">
       <Header />
       <div className="flex flex-col items-center justify-center gap-y-2">
         <h1 className="text-6xl font-bold ">Login</h1>
@@ -72,8 +72,10 @@ const Login = () => {
             Forgot password?
           </Link>
         </form>
+        <h3 className="text-xl text-center mt-10">
+          New to keydown? <Link href="/signup">Signup</Link>
+        </h3>
       </div>
-      <div className=""></div>
     </div>
   );
 };
