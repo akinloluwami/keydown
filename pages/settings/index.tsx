@@ -76,7 +76,7 @@ const Settings = () => {
           />
           <p className="font-normal mt-1 text-that-grey-1">About your blog.</p>
         </div>
-        <button className="bg-white text-black py-3 font-semibold text-xl w-full max-w-[250px] px-10 flex items-center justify-center">
+        <button className="bg-white text-black py-3 font-semibold text-xl w-full max-w-[200px] flex items-center justify-center">
           {loading ? (
             <CgSpinner className="animate-spin" size={28} />
           ) : (
