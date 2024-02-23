@@ -13,6 +13,22 @@ export const users = pgTable("users", {
   username: text("username").unique().notNull(),
   password: text("password").notNull(),
   firstname: text("firstname").notNull(),
+  blogTitle: text("blog_title").notNull(),
+  blogDescription: text("blog_description"),
+  profilePicture: text("profile_picture"),
+  bio: text("bio"),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
 });
 
 export const sessions = pgTable("sessions", {
