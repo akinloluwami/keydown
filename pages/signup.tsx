@@ -10,7 +10,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="h-screen flex flex-col justify-between pb-10">
       <Header />
       <div className="flex flex-col items-center justify-center gap-y-2">
         <h1 className="text-6xl font-bold ">Signup</h1>
@@ -93,8 +93,11 @@ const Signup = () => {
             )}
           </button>
         </form>
+
+        <h3 className="text-xl text-center mt-10">
+          Already have an account? <Link href="/login">Login</Link>
+        </h3>
       </div>
-      <div className=""></div>
     </div>
   );
 };
