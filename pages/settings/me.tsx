@@ -1,9 +1,17 @@
 import SettingsLinks from "@/components/SettingsLinks";
 import DashboardLayout from "@/layouts/Dashboard";
-import React from "react";
+import { fetcher } from "@/lib/fetcher";
+import React, { useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import { SiGithub, SiInstagram, SiThreads, SiTwitter } from "react-icons/si";
+import useSWR from "swr";
 
 const MeSettings = () => {
+  const { data: user, isLoading } = useSWR("/api/settings/me", fetcher);
+
+  const [loading, setLoading] = useState(false);
+
+  const exampleUsername = `e.g @${user?.firstname.toLowerCase()}`;
   return (
     <DashboardLayout>
       <SettingsLinks />
@@ -13,7 +21,8 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="Blog title"
+            placeholder={user?.firstname}
+            defaultValue={user?.firstname}
           />
         </div>
         <div className="">
@@ -21,7 +30,7 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="e.g akinkunmi.com"
+            placeholder={`e.g ${user?.firstname.toLowerCase()}.com`}
           />
           <p className="font-normal mt-1 text-that-grey-1">
             If you have a personal site on the web other than your Keydown blog,
@@ -37,7 +46,7 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="e.g @akinkunmi"
+            placeholder={exampleUsername}
           />
         </div>
         <div className="">
@@ -48,7 +57,7 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="e.g @akinkunmi"
+            placeholder={exampleUsername}
           />
         </div>
         <div className="">
@@ -59,7 +68,7 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="e.g @akinkunmi"
+            placeholder={exampleUsername}
           />
         </div>
         <div className="">
@@ -70,12 +79,16 @@ const MeSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="e.g @akinkunmi"
+            placeholder={exampleUsername}
           />
         </div>
 
-        <button className="bg-white text-black py-3 font-semibold text-xl w-fit px-10">
-          Save changes
+        <button className="bg-white text-black py-3 font-semibold text-xl w-full max-w-[200px] flex items-center justify-center">
+          {loading ? (
+            <CgSpinner className="animate-spin" size={28} />
+          ) : (
+            "Save changes"
+          )}
         </button>
       </div>
     </DashboardLayout>
