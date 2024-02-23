@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Toaster richColors position="top-center" />
+      <Toaster richColors position="top-center" duration={2000} />
       <Component {...pageProps} />;
     </>
   );
