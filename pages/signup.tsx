@@ -19,6 +19,7 @@ const Signup = () => {
           action="/api/signup"
           method="POST"
           onSubmit={async (e) => {
+            setIsLoading(true);
             e.preventDefault();
             const formElement = e.target as HTMLFormElement;
             const response = await fetch(formElement.action, {
@@ -30,6 +31,7 @@ const Signup = () => {
                 "Content-Type": "application/json",
               },
             });
+            setIsLoading(false);
             if (response.ok) {
               router.push("/dashboard");
               toast.success("Signup successful");
@@ -81,7 +83,7 @@ const Signup = () => {
             <p className="text-xl font-semibold">.keydown.co</p>
           </div>
           <button
-            className="bg-white text-black py-3 font-semibold text-xl disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
+            className="bg-white text-black py-3 font-semibold text-xl flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
             disabled={isLoading}
           >
             {isLoading ? (
