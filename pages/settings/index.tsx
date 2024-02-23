@@ -3,6 +3,7 @@ import DashboardLayout from "@/layouts/Dashboard";
 import { fetcher } from "@/lib/fetcher";
 import axios from "axios";
 import React, { useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -28,6 +29,8 @@ const Settings = () => {
             toast.success("Blog setting updated");
           } catch (error: any) {
             toast.error(error.response.data.message || "Something went wrong");
+          } finally {
+            setLoading(false);
           }
         }}
       >
@@ -73,8 +76,12 @@ const Settings = () => {
           />
           <p className="font-normal mt-1 text-that-grey-1">About your blog.</p>
         </div>
-        <button className="bg-white text-black py-3 font-semibold text-xl w-fit px-10">
-          Save changes
+        <button className="bg-white text-black py-3 font-semibold text-xl w-full max-w-[250px] px-10 flex items-center justify-center">
+          {loading ? (
+            <CgSpinner className="animate-spin" size={28} />
+          ) : (
+            "Save changes"
+          )}
         </button>
       </form>
     </DashboardLayout>
