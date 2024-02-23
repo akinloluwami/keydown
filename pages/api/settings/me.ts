@@ -30,21 +30,63 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { firstname, website, twitter, instagram, threads, github } =
       req.body;
 
+    if (firstname && !validator.isLength(firstname, { min: 3, max: 50 })) {
+      res.status(400).json({
+        message: "Firstname must be between 3 and 50 characters",
+      });
+      return;
+    }
+
+    if (website && !validator.isURL(website)) {
+      res.status(400).json({
+        message: "Website must be a valid URL",
+      });
+      return;
+    }
+
+    if (twitter && !twitter.includes("@")) {
+      res.status(400).json({
+        message: "Twitter handle must start with @",
+      });
+      return;
+    }
+
+    if (instagram && !instagram.includes("@")) {
+      res.status(400).json({
+        message: "Instagram handle must start with @",
+      });
+      return;
+    }
+
+    if (github && !github.includes("@")) {
+      res.status(400).json({
+        message: "Github handle must start with @",
+      });
+      return;
+    }
+
+    if (threads && !threads.includes("@")) {
+      res.status(400).json({
+        message: "Threads handle must start with @",
+      });
+      return;
+    }
+
     await db
       .update(users)
       .set({
         firstname: firstname,
-        website: website,
-        twitter: twitter,
-        instagram: instagram,
-        threads: threads,
-        github: github,
+        website: website.toLowerCase(),
+        twitter: twitter.toLowerCase(),
+        instagram: instagram.toLowerCase(),
+        threads: threads.toLowerCase(),
+        github: github.toLowerCase(),
         updatedAt: new Date(),
       })
       .where(eq(users.id, user.id));
 
     return res.status(200).json({
-      message: "Blog settings updated successfully",
+      message: "Profile updated",
     });
   }
 };
