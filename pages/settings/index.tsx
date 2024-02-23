@@ -8,7 +8,7 @@ const Settings = () => {
       <SettingsLinks />
       <div className="w-full font-semibold max-w-[500px] mt-20 flex flex-col gap-y-10">
         <div className="">
-          <p className="text-lg mb-2">Blog name</p>
+          <p className="text-lg mb-2">Blog subdomain</p>
           <div className="flex items-center border border-dashed border-that-grey text-xl pl-3 py-3">
             <input
               type="text"
@@ -36,10 +36,10 @@ const Settings = () => {
           </p>
         </div>
         <div className="">
-          <p className="text-lg mb-2">Tagline</p>
+          <p className="text-lg mb-2">Description</p>
           <textarea
             className="w-full bg-transparent border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="tagline"
+            placeholder="What is your blog about?"
           />
           <p className="font-normal mt-1 text-that-grey-1">About your blog.</p>
         </div>
