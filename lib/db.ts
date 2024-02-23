@@ -29,6 +29,11 @@ export const users = pgTable("users", {
   })
     .notNull()
     .defaultNow(),
+  website: text("website"),
+  twitter: text("twitter"),
+  instagram: text("instagram"),
+  threads: text("threads"),
+  github: text("github"),
 });
 
 export const sessions = pgTable("sessions", {
