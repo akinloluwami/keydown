@@ -23,6 +23,7 @@ export const users = pgTable("users", {
   })
     .notNull()
     .defaultNow(),
+  customDomain: text("custom_domain"),
   updatedAt: timestamp("updated_at", {
     withTimezone: true,
     mode: "date",
