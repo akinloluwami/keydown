@@ -44,6 +44,7 @@ const MeSettings = () => {
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder={user?.firstname}
             defaultValue={user?.firstname}
+            name="firstname"
           />
         </div>
         <div className="">
@@ -52,6 +53,8 @@ const MeSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder={`e.g ${user?.firstname.toLowerCase()}.com`}
+            defaultValue={user?.website}
+            name="website"
           />
           <p className="font-normal mt-1 text-that-grey-1">
             If you have a personal site on the web other than your Keydown blog,
@@ -68,6 +71,8 @@ const MeSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder={exampleUsername}
+            defaultValue={user?.twitter}
+            name="twitter"
           />
         </div>
         <div className="">
@@ -79,6 +84,8 @@ const MeSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder={exampleUsername}
+            defaultValue={user?.instagram}
+            name="instagram"
           />
         </div>
         <div className="">
@@ -90,6 +97,8 @@ const MeSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder={exampleUsername}
+            defaultValue={user?.threads}
+            name="threads"
           />
         </div>
         <div className="">
@@ -101,6 +110,8 @@ const MeSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder={`e.g github.com/${user?.firstname.toLowerCase()}`}
+            defaultValue={user?.github}
+            name="github"
           />
         </div>
 
