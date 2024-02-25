@@ -94,7 +94,7 @@ const MeSettings = () => {
         </div>
         <div className="">
           <p className="text-lg mb-2 flex items-center gap-x-2">
-            GitHub
+            GitHub URL
             <SiGithub className="text-that-grey-1" />
           </p>
           <input
