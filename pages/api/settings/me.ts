@@ -2,7 +2,7 @@ import { db, users } from "@/lib/db";
 import { validateRequest } from "@/utils/validateRequest";
 import { eq } from "drizzle-orm";
 import { NextApiRequest, NextApiResponse } from "next";
-import { isURL, isLength } from "validator";
+import { isURL, isLength, isAlphanumeric, isWhitelisted } from "validator";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = await validateRequest(req, res);
@@ -29,6 +29,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
     const { firstname, website, twitter, instagram, threads, github } =
       req.body;
+
+    if (!firstname) {
+      res.status(400).json({
+        message: "Firstname is required",
+      });
+      return;
+    }
 
     if (firstname && !isLength(firstname, { min: 3, max: 50 })) {
       res.status(400).json({
@@ -58,9 +65,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    if (github && !isURL(github) && !github.includes("github.com")) {
+    if (
+      github &&
+      !isURL(github, {
+        host_whitelist: ["github.com"],
+      })
+    ) {
       res.status(400).json({
         message: "Invalid Github URL",
+      });
+      return;
+    }
+
+    const regex = /^[a-zA-Z0-9./]+$/;
+
+    if (github && !regex.test(github)) {
+      res.status(400).json({
+        message: "Github URL cannot contain invalid characters",
+      });
+      return;
+    }
+
+    if (github && github.toLowerCase() === "github.com") {
+      res.status(400).json({
+        message: "URL cannot be 'github.com'",
+      });
+      return;
+    }
+    if (github && github.toLowerCase() === "github.com/") {
+      res.status(400).json({
+        message: "URL cannot be 'github.com/'",
       });
       return;
     }
@@ -72,11 +106,50 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
+    if (github && github.includes("www.")) {
+      res.status(400).json({
+        message: "Github URL should contain 'www.'",
+      });
+      return;
+    }
+
+    if (github && github.includes("https://" || "http://")) {
+      res.status(400).json({
+        message: "Github URL should not contain 'https://' or 'http://'",
+      });
+      return;
+    }
+
+    if (
+      (twitter && twitter === "@") ||
+      (instagram && instagram === "@") ||
+      (threads && threads === "@")
+    ) {
+      res.status(400).json({
+        message: "Handle cannot be '@'",
+      });
+      return;
+    }
+
+    const handleRegex = /^[^@]*@[^@]*$/;
+
+    if (
+      (twitter && !handleRegex.test(twitter)) ||
+      (instagram && !handleRegex.test(instagram)) ||
+      (threads && !handleRegex.test(threads))
+    ) {
+      res.status(400).json({
+        message:
+          "Handle can only contain letters, numbers, underscores, and '@'",
+      });
+      return;
+    }
+
     try {
       await db
         .update(users)
         .set({
-          firstname: firstname,
+          firstname: firstname.trim(),
           website: website.toLowerCase(),
           twitter: twitter.toLowerCase(),
           instagram: instagram.toLowerCase(),
