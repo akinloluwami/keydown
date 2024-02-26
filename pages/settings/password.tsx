@@ -23,7 +23,7 @@ const PasswordSettings = () => {
                 new FormData(e.target as HTMLFormElement).entries()
               )
             );
-            toast.success("Domain setting updated");
+            toast.success("Password updated successfully");
           } catch (error: any) {
             toast.error(error.response.data.message || "Something went wrong");
           } finally {
@@ -37,7 +37,7 @@ const PasswordSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder="********************"
-            name="currentPassword"
+            name="password"
           />
         </div>
         <div className="">
@@ -55,7 +55,7 @@ const PasswordSettings = () => {
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
             placeholder="********************"
-            name="repeatNewPassword"
+            name="confirmPassword"
           />
         </div>
         <button className="bg-white text-black py-3 font-semibold text-xl w-full max-w-[200px] flex items-center justify-center">
