@@ -62,7 +62,7 @@ const PasswordSettings = () => {
           {loading ? (
             <CgSpinner className="animate-spin" size={28} />
           ) : (
-            "Update password"
+            "Change password"
           )}
         </button>
       </form>
