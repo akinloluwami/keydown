@@ -18,6 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           description: users.blogDescription,
         })
         .from(users)
+        .where(eq(users.id, user.id))
     ).flat()[0];
 
     return res.status(200).json(data);
