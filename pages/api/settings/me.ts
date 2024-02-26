@@ -2,7 +2,7 @@ import { db, users } from "@/lib/db";
 import { validateRequest } from "@/utils/validateRequest";
 import { eq } from "drizzle-orm";
 import { NextApiRequest, NextApiResponse } from "next";
-import { isURL, isLength, isAlphanumeric, isWhitelisted } from "validator";
+import { isURL, isLength } from "validator";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = await validateRequest(req, res);
