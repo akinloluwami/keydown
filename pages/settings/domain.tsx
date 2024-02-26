@@ -2,7 +2,7 @@ import SettingsLinks from "@/components/SettingsLinks";
 import DashboardLayout from "@/layouts/Dashboard";
 import { fetcher } from "@/lib/fetcher";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { toast } from "sonner";
 import useSWR from "swr";
@@ -10,8 +10,14 @@ import useSWR from "swr";
 const DomainSettings = () => {
   const { data, isLoading } = useSWR("/api/settings/domain", fetcher);
 
-  const [loading, setLoading] = useState(false);
   const [domain, setDomain] = useState(data?.domain);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      setDomain(data.domain);
+    }
+  }, [data]);
 
   return (
     <DashboardLayout>
