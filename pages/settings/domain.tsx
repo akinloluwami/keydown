@@ -20,7 +20,7 @@ const DomainSettings = () => {
   }, [data]);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout loading={isLoading} title="Domain settings">
       <SettingsLinks />
       <form
         className="w-full font-semibold max-w-[500px] mt-20 flex flex-col gap-y-10"
