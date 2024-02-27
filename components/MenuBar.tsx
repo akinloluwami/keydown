@@ -12,7 +12,9 @@ import {
 } from "react-icons/md";
 import { TbDivide } from "react-icons/tb";
 
-export const MenuBar = ({ editor }: { editor: any }) => {
+export const MenuBar = () => {
+  const { editor } = useCurrentEditor();
+
   if (!editor) {
     return null;
   }
@@ -80,9 +82,12 @@ export const MenuBar = ({ editor }: { editor: any }) => {
       {tools.map((tool) => (
         <button
           key={tool.name}
-          className={`w-8 h-8 text-xl ${editor.isActive(
-            tool.name.toLowerCase() && "border border-dashed border-that-grey"
-          )}`}
+          className={`w-8 h-8 text-xl flex items-center justify-center rounded-lg  ${
+            editor.isActive(tool.name.toLowerCase())
+              ? "border border-dashed border-that-grey"
+              : ""
+          }`}
+          onClick={tool.action}
         >
           {tool.icon}
         </button>
