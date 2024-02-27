@@ -36,9 +36,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   ).flat()[0];
 
   const argon2 = new Argon2id();
-  const hashedPassword = await argon2.hash(password);
 
-  if (hashedPassword !== dbUser.password) {
+  if (!(await argon2.verify(dbUser.password, password))) {
     return res.status(400).json({ message: "Incorrect password" });
   }
 
