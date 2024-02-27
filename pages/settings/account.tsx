@@ -4,7 +4,7 @@ import React from "react";
 
 const AccountSettings = () => {
   return (
-    <DashboardLayout>
+    <DashboardLayout loading={false} title="Account Settings">
       <SettingsLinks />
     </DashboardLayout>
   );
