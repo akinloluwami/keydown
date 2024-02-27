@@ -9,7 +9,7 @@ const PasswordSettings = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Password Settings">
       <SettingsLinks />
       <form
         className="w-full font-semibold max-w-[500px] mt-20 flex flex-col gap-y-10"
