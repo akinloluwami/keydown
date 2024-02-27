@@ -1,10 +1,12 @@
+import { Editor } from "@/components/Editor";
 import DashboardLayout from "@/layouts/Dashboard";
+import { useCurrentEditor } from "@tiptap/react";
 import React from "react";
 
 const Write = () => {
   return (
     <DashboardLayout title="Write">
-      <div className="flex mt-5">
+      <div className="flex mt-5 flex-col gap-y-5">
         <div className="flex justify-between items-center w-full">
           <input
             type="text"
@@ -20,6 +22,7 @@ const Write = () => {
             </button>
           </div>
         </div>
+        <Editor />
       </div>
     </DashboardLayout>
   );
