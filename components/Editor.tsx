@@ -1,20 +1,24 @@
-import { useEditor, EditorContent } from "@tiptap/react";
+import { EditorProvider } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { MenuBar } from "./MenuBar";
 
 export const Editor = () => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "<p>Hello World!</p>",
-  });
+  const extensions = [StarterKit];
 
   return (
     <div className="">
-      <MenuBar editor={editor} />
-      <EditorContent
-        editor={editor}
-        className="p-3 border border-dashed border-that-grey rounded-lg"
-      />
+      <>
+        <EditorProvider
+          slotBefore={<MenuBar />}
+          extensions={extensions}
+          content={"<p>Start here!</p>"}
+          onUpdate={({ editor }) => {
+            console.log(editor.getHTML());
+          }}
+        >
+          <></>
+        </EditorProvider>
+      </>
     </div>
   );
 };
