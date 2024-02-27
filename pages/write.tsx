@@ -1,6 +1,5 @@
 import { Editor } from "@/components/Editor";
 import DashboardLayout from "@/layouts/Dashboard";
-import { useCurrentEditor } from "@tiptap/react";
 import React from "react";
 
 const Write = () => {
