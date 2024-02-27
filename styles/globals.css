@@ -8,6 +8,14 @@ body {
   color: #fff;
 }
 
+body ul {
+  list-style-type: circle;
+}
+
+body ol {
+  list-style-type: decimal;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
