@@ -43,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const validPassword = await new Argon2id().verify(user.password, password);
     if (!validPassword) {
       res.status(400).json({
-        error: "Username or password is incorrect",
+        message: "Username or password is incorrect",
       });
       return;
     }
