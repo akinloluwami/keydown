@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, ReactNode } from "react";
 import { CgSpinnerTwo } from "react-icons/cg";
+import { FaCaretRight } from "react-icons/fa";
 
 const DashboardLayout = ({
   children,
@@ -31,10 +32,16 @@ const DashboardLayout = ({
           <h3 className="font-bold text-2xl">keydown</h3>
           <div className="flex flex-col text-xl gap-y-12 mt-10">
             {pages.map((page, i) => (
-              <Link href={page.route} key={i} className="w-fit">
+              <Link
+                href={page.route}
+                key={i}
+                className="w-fit flex items-center"
+              >
                 {router.pathname.split("/")[1] ===
                   page.route.replace("/", "") && (
-                  <span className="mr-2">&gt;</span>
+                  <span className="mr-2">
+                    <FaCaretRight />
+                  </span>
                 )}
                 {page.name}
               </Link>
