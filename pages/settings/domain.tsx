@@ -47,7 +47,7 @@ const DomainSettings = () => {
           <input
             type="text"
             className="bg-transparent w-full border border-dashed border-that-grey text-xl pl-3 py-3 placeholder:text-that-grey font-semibold"
-            placeholder="e.g blog.akinkunmi.com, akinkunmi.blog"
+            placeholder={`e.g blog.${data?.firstname.toLowerCase()}.com, ${data?.firstname.toLowerCase()}.blog`}
             defaultValue={data?.domain}
             name="customDomain"
             onChange={(e) => setDomain(e.target.value)}
