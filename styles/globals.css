@@ -10,10 +10,12 @@ body {
 
 body ul {
   list-style-type: circle;
+  padding-left: 1rem;
 }
 
 body ol {
   list-style-type: decimal;
+  padding-left: 1rem;
 }
 
 @layer utilities {
@@ -24,6 +26,20 @@ body ol {
 
 .ProseMirror {
   outline: none;
+  @apply p-3 border border-dashed border-that-grey;
+}
+
+/* .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+} */
+
+.ProseMirror p {
+  font-size: 1.25rem;
+  line-height: 2;
 }
 
 pre {
@@ -91,4 +107,14 @@ pre {
   .hljs-strong {
     font-weight: 700;
   }
+}
+
+blockquote {
+  border-left: 3px solid #fff;
+  color: #616161;
+  margin-left: 0;
+  padding-left: 1rem;
+  font-style: italic;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
