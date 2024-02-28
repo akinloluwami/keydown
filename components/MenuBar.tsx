@@ -66,7 +66,7 @@ export const MenuBar = () => {
       icon: <BiCodeBlock />,
     },
     {
-      name: "Quote",
+      name: "BlockQuote",
       action: () => editor.chain().focus().toggleBlockquote().run(),
       icon: <MdFormatQuote />,
     },
@@ -78,11 +78,11 @@ export const MenuBar = () => {
   ];
 
   return (
-    <div className="flex items-center gap-x-5 p-3 border border-dashed border-that-grey rounded-lg mb-5">
+    <div className="flex items-center gap-x-5 p-3 border border-dashed border-that-grey mb-5 sticky top-0 bg-black z-10">
       {tools.map((tool) => (
         <button
           key={tool.name}
-          className={`w-8 h-8 text-xl flex items-center justify-center rounded-lg  ${
+          className={`w-8 h-8 text-xl flex items-center justify-center ${
             editor.isActive(
               tool.name.includes(" ")
                 ? tool.name
