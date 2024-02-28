@@ -1,4 +1,9 @@
-import { EditorProvider, ReactNodeViewRenderer } from "@tiptap/react";
+import {
+  BubbleMenu,
+  EditorProvider,
+  ReactNodeViewRenderer,
+  useCurrentEditor,
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { MenuBar } from "./MenuBar";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
@@ -10,6 +15,7 @@ import html from "highlight.js/lib/languages/xml";
 import elixir from "highlight.js/lib/languages/elixir";
 import CodeBlock from "./CodeBlock";
 import BlockQuote from "@tiptap/extension-blockquote";
+import TextSelectMenu from "./TextSelectMenu";
 
 const lowlight = createLowlight();
 
@@ -30,6 +36,8 @@ export const Editor = () => {
     BlockQuote,
   ];
 
+  const { editor } = useCurrentEditor();
+
   return (
     <div className="mt-10">
       <>
@@ -41,7 +49,9 @@ export const Editor = () => {
             console.log(editor.getHTML());
           }}
         >
-          <></>
+          <BubbleMenu>
+            {editor?.isActive("text") && <TextSelectMenu />}
+          </BubbleMenu>
         </EditorProvider>
       </>
     </div>
