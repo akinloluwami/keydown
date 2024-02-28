@@ -83,7 +83,19 @@ export const MenuBar = () => {
         <button
           key={tool.name}
           className={`w-8 h-8 text-xl flex items-center justify-center rounded-lg  ${
-            editor.isActive(tool.name.toLowerCase())
+            editor.isActive(
+              tool.name.includes(" ")
+                ? tool.name
+                    .split(" ")
+                    .map((word, index) =>
+                      index === 0
+                        ? word.toLowerCase()
+                        : word.charAt(0).toUpperCase() +
+                          word.slice(1).toLowerCase()
+                    )
+                    .join("")
+                : tool.name.toLowerCase()
+            )
               ? "border border-dashed border-that-grey"
               : ""
           }`}
