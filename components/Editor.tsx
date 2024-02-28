@@ -9,6 +9,7 @@ import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 import elixir from "highlight.js/lib/languages/elixir";
 import CodeBlock from "./CodeBlock";
+import BlockQuote from "@tiptap/extension-blockquote";
 
 const lowlight = createLowlight();
 
@@ -26,6 +27,7 @@ export const Editor = () => {
         return ReactNodeViewRenderer(CodeBlock);
       },
     }).configure({ lowlight }),
+    BlockQuote,
   ];
 
   return (
