@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",
+    "@tippyjs/react": "^4.2.6",
     "@tiptap/extension-blockquote": "^2.2.4",
     "@tiptap/extension-code-block-lowlight": "^2.2.4",
     "@tiptap/extension-color": "^2.2.4",
