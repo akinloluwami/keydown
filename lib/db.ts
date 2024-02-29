@@ -48,6 +48,29 @@ export const sessions = pgTable("sessions", {
   }).notNull(),
 });
 
+export const posts = pgTable("posts", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  title: text("title").notNull(),
+  slug: text("slug").notNull(),
+  content: text("content").notNull(),
+  isDraft: text("is_draft").notNull(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  updatedAt: timestamp("updated_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  publishDate: timestamp("publish_date", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+});
+
 export const db = drizzle(pool, {
   schema: {
     users,
