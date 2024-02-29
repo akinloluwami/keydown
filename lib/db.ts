@@ -1,6 +1,6 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import pg from "pg";
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/node-postgres";
 
 const pool = new pg.Pool({
@@ -55,8 +55,8 @@ export const posts = pgTable("posts", {
     .references(() => users.id),
   title: text("title").notNull(),
   slug: text("slug").notNull(),
-  content: text("content").notNull(),
-  isDraft: text("is_draft").notNull(),
+  content: text("content"),
+  isDraft: boolean("is_draft").default(true),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
