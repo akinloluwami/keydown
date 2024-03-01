@@ -16,6 +16,8 @@ import elixir from "highlight.js/lib/languages/elixir";
 import CodeBlock from "./CodeBlock";
 import BlockQuote from "@tiptap/extension-blockquote";
 import TextSelectMenu from "./TextSelectMenu";
+import Highlight from "@tiptap/extension-highlight";
+import Code from "@tiptap/extension-code";
 
 const lowlight = createLowlight();
 
@@ -34,6 +36,8 @@ export const Editor = () => {
       },
     }).configure({ lowlight }),
     BlockQuote,
+    Highlight,
+    Code,
   ];
 
   const { editor } = useCurrentEditor();
@@ -50,7 +54,15 @@ export const Editor = () => {
           }}
         >
           <BubbleMenu>
-            {editor?.isActive("text") && <TextSelectMenu />}
+            {editor?.isActive("link") ? (
+              // <LinkSelectMenu editor={editor} />
+              <div className=""></div>
+            ) : editor?.isActive("image") ? (
+              // <ImageSelectMenu editor={editor} />
+              <div className=""></div>
+            ) : (
+              <TextSelectMenu editor={editor} />
+            )}
           </BubbleMenu>
         </EditorProvider>
       </>
