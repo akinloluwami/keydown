@@ -33,65 +33,41 @@ const TextSelectMenu = ({ editor }: any) => {
   const tools = [
     {
       text: "Bold",
-      node: (
-        <button onClick={() => editor.chain().focus().toggleBold().run()}>
-          <MdFormatBold />
-        </button>
-      ),
+      action: () => editor.chain().focus().toggleBold().run(),
+      icon: <MdFormatBold />,
     },
     {
       text: "Italic",
-      node: (
-        <button onClick={() => editor.chain().focus().toggleItalic().run()}>
-          <MdFormatItalic />
-        </button>
-      ),
+      action: () => editor.chain().focus().toggleItalic().run(),
+      icon: <MdFormatItalic />,
     },
     {
       text: "Strike",
-      node: (
-        <button onClick={() => editor.chain().focus().toggleStrike().run()}>
-          <MdOutlineStrikethroughS />
-        </button>
-      ),
+      action: () => editor.chain().focus().toggleStrike().run(),
+      icon: <MdOutlineStrikethroughS />,
     },
     {
       text: "Link",
-      node: (
-        <button onClick={setLink}>
-          <MdLink />
-        </button>
-      ),
+      action: setLink,
+      icon: <MdLink />,
     },
     {
       text: "Highlight",
-      node: (
-        <button
-          onClick={() => editor.chain().focus().toggleHighlight().run()}
-          className={editor.isActive("highlight") ? "is-active" : ""}
-        >
-          <FaHighlighter />
-        </button>
-      ),
+      action: () => editor.chain().focus().toggleHighlight().run(),
+      icon: <FaHighlighter />,
     },
     {
       text: "Inline code",
-      node: (
-        <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          className={editor.isActive("code") ? "is-active" : ""}
-        >
-          <FaCode />
-        </button>
-      ),
+      action: () => editor.chain().focus().toggleCode().run(),
+      icon: <FaCode />,
     },
   ];
 
   return (
     <div>
       {tools.map((tool, i) => (
-        <Tippy content={tool.text} key={i}>
-          <button>{tool.node}</button>
+        <Tippy content={tool?.text} key={i}>
+          <button>{tool.icon}</button>
         </Tippy>
       ))}
     </div>
