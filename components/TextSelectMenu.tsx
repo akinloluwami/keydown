@@ -67,7 +67,7 @@ const TextSelectMenu = ({ editor }: any) => {
     <div>
       {tools.map((tool, i) => (
         <Tippy content={tool?.text} key={i}>
-          <button>{tool.icon}</button>
+          <button onClick={tool.action}>{tool.icon}</button>
         </Tippy>
       ))}
     </div>
