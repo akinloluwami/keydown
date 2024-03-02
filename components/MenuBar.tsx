@@ -1,4 +1,3 @@
-import { useCurrentEditor } from "@tiptap/react";
 import { BiCodeBlock } from "react-icons/bi";
 import { BsCode, BsImage } from "react-icons/bs";
 import {
