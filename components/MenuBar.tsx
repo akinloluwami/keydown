@@ -11,6 +11,7 @@ import {
 } from "react-icons/md";
 import { TbDivide } from "react-icons/tb";
 import type { Editor } from "@tiptap/react";
+import Tippy from "@tippyjs/react";
 
 export const MenuBar = ({ editor }: { editor: Editor }) => {
   const tools = [
@@ -74,29 +75,30 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
   return (
     <div className="flex items-center gap-x-5 p-3 border border-dashed border-that-grey mb-5 sticky top-0 bg-black z-10">
       {tools.map((tool) => (
-        <button
-          key={tool.name}
-          className={`w-8 h-8 text-xl flex items-center justify-center ${
-            editor.isActive(
-              tool.name.includes(" ")
-                ? tool.name
-                    .split(" ")
-                    .map((word, index) =>
-                      index === 0
-                        ? word.toLowerCase()
-                        : word.charAt(0).toUpperCase() +
-                          word.slice(1).toLowerCase()
-                    )
-                    .join("")
-                : tool.name.toLowerCase()
-            )
-              ? "border border-dashed border-that-grey"
-              : ""
-          }`}
-          onClick={tool.action}
-        >
-          {tool.icon}
-        </button>
+        <Tippy key={tool.name} content={tool.name} delay={1000}>
+          <button
+            className={`w-8 h-8 text-xl flex items-center justify-center ${
+              editor.isActive(
+                tool.name.includes(" ")
+                  ? tool.name
+                      .split(" ")
+                      .map((word, index) =>
+                        index === 0
+                          ? word.toLowerCase()
+                          : word.charAt(0).toUpperCase() +
+                            word.slice(1).toLowerCase()
+                      )
+                      .join("")
+                  : tool.name.toLowerCase()
+              )
+                ? "border border-dashed border-that-grey"
+                : ""
+            }`}
+            onClick={tool.action}
+          >
+            {tool.icon}
+          </button>
+        </Tippy>
       ))}
     </div>
   );
