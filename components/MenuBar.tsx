@@ -11,14 +11,9 @@ import {
   MdStrikethroughS,
 } from "react-icons/md";
 import { TbDivide } from "react-icons/tb";
+import type { Editor } from "@tiptap/react";
 
-export const MenuBar = () => {
-  const { editor } = useCurrentEditor();
-
-  if (!editor) {
-    return null;
-  }
-
+export const MenuBar = ({ editor }: { editor: Editor }) => {
   const tools = [
     {
       name: "Bold",
