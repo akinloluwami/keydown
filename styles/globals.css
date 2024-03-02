@@ -18,6 +18,12 @@ body ol {
   padding-left: 1rem;
 }
 
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
 .ProseMirror {
   outline: none;
   @apply p-3 border border-dashed border-that-grey;
