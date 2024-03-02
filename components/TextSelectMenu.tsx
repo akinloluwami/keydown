@@ -7,7 +7,6 @@ import {
 } from "react-icons/md";
 import { FaCode, FaHighlighter } from "react-icons/fa";
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 
 const TextSelectMenu = ({ editor }: any) => {
   const setLink = useCallback(() => {
