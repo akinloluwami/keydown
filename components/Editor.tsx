@@ -1,8 +1,8 @@
 import {
   BubbleMenu,
-  EditorProvider,
+  EditorContent,
   ReactNodeViewRenderer,
-  useCurrentEditor,
+  useEditor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { MenuBar } from "./MenuBar";
@@ -18,6 +18,7 @@ import BlockQuote from "@tiptap/extension-blockquote";
 import TextSelectMenu from "./TextSelectMenu";
 import Highlight from "@tiptap/extension-highlight";
 import Code from "@tiptap/extension-code";
+import Link from "@tiptap/extension-link";
 
 const lowlight = createLowlight();
 
@@ -38,33 +39,37 @@ export const Editor = () => {
     BlockQuote,
     Highlight,
     Code,
+    Link.configure({
+      openOnClick: false,
+      autolink: true,
+      linkOnPaste: true,
+    }),
   ];
 
-  const { editor } = useCurrentEditor();
+  const editor = useEditor({
+    extensions,
+    content: "<p>Hey, babe!</p>",
+    onUpdate: () => console.log(editor?.getHTML()),
+  });
+
+  if (!editor) return <div className="">Loading editor...</div>;
 
   return (
     <div className="mt-10">
       <>
-        <EditorProvider
-          slotBefore={<MenuBar />}
-          extensions={extensions}
-          content={"<p>Start here!</p>"}
-          onUpdate={({ editor }) => {
-            console.log(editor.getHTML());
-          }}
-        >
-          <BubbleMenu>
-            {editor?.isActive("link") ? (
-              // <LinkSelectMenu editor={editor} />
-              <div className=""></div>
-            ) : editor?.isActive("image") ? (
-              // <ImageSelectMenu editor={editor} />
-              <div className=""></div>
-            ) : (
-              <TextSelectMenu editor={editor} />
-            )}
-          </BubbleMenu>
-        </EditorProvider>
+        <MenuBar editor={editor} />
+        <EditorContent editor={editor} />
+        <BubbleMenu editor={editor!}>
+          {editor.isActive("link") ? (
+            // <LinkSelectMenu editor={editor} />
+            <div className=""></div>
+          ) : editor.isActive("image") ? (
+            // <ImageSelectMenu editor={editor} />
+            <div className=""></div>
+          ) : (
+            <TextSelectMenu editor={editor} />
+          )}
+        </BubbleMenu>
       </>
     </div>
   );
