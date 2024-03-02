@@ -65,10 +65,12 @@ const TextSelectMenu = ({ editor }: any) => {
   ];
 
   return (
-    <div>
+    <div className="flex gap-x-3 items-center">
       {tools.map((tool, i) => (
         <Tippy content={tool?.text} key={i}>
-          <button onClick={tool.action}>{tool.icon}</button>
+          <button onClick={tool.action} className={`text-xl`}>
+            {tool.icon}
+          </button>
         </Tippy>
       ))}
     </div>
