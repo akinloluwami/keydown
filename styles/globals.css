@@ -27,6 +27,9 @@ body ol {
 .ProseMirror {
   outline: none;
   @apply p-3 border border-dashed border-that-grey;
+  a {
+    text-decoration: underline;
+  }
 }
 
 /* .ProseMirror p.is-editor-empty:first-child::before {
