@@ -26,7 +26,9 @@ const TextSelectMenu = ({ editor }: any) => {
       ?.chain()
       .focus()
       .extendMarkRange("link")
-      .setLink({ href: url })
+      .setLink({
+        href: !url.startsWith("http://" || "https://") ? `https://${url}` : url,
+      })
       .run();
   }, [editor]);
 
