@@ -69,6 +69,7 @@ export const posts = pgTable("posts", {
     withTimezone: true,
     mode: "date",
   }).notNull(),
+  coverImage: text("cover_image"),
 });
 
 export const db = drizzle(pool, {
