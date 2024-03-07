@@ -1,6 +1,6 @@
 import { Editor } from "@/components/Editor";
 import DashboardLayout from "@/layouts/Dashboard";
-import React from "react";
+import { LuPlus } from "react-icons/lu";
 
 const Write = () => {
   return (
@@ -14,6 +14,9 @@ const Write = () => {
             Publish
           </button>
         </div>
+        <button className="text-left text-that-grey-1 font-medium hover:bg-white/20 transition-colors px-1 w-fit flex items-center gap-x-2">
+          <LuPlus /> Add cover image
+        </button>
         <input
           type="text"
           className="bg-transparent border border-dashed border-that-grey text-2xl p-3 placeholder:text-that-grey font-semibold w-full"
