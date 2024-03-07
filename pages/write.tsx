@@ -1,16 +1,31 @@
 import { Editor } from "@/components/Editor";
 import DashboardLayout from "@/layouts/Dashboard";
+import { useEditorContent } from "@/store/useEditorContent";
 import { uploadfly } from "@/utils/uploadfly";
+import axios from "axios";
 import { useRef, useState } from "react";
 import { CgSpinnerAlt } from "react-icons/cg";
-import { LuPlus, LuRepeat2, LuTrash, LuTrash2 } from "react-icons/lu";
+import { LuPlus, LuRepeat2, LuTrash } from "react-icons/lu";
 import { toast } from "sonner";
 
 const Write = () => {
   const [coverImage, setCoverImage] = useState("");
   const [isUploadingCoverImage, setIsUploadingCoverImage] = useState(false);
+  const [title, setTitle] = useState("");
+  const { content } = useEditorContent();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const publishPost = async () => {
+    try {
+      await axios.post("/api/posts", {
+        title,
+        coverImage,
+        content,
+      });
+      toast.success("Post published");
+    } catch (error) {}
+  };
 
   return (
     <DashboardLayout title="Write">
