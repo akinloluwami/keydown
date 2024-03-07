@@ -1,8 +1,17 @@
 import { Editor } from "@/components/Editor";
 import DashboardLayout from "@/layouts/Dashboard";
+import { uploadfly } from "@/utils/uploadfly";
+import { useRef, useState } from "react";
+import { CgSpinnerAlt } from "react-icons/cg";
 import { LuPlus } from "react-icons/lu";
+import { toast } from "sonner";
 
 const Write = () => {
+  const [coverImage, setCoverImage] = useState("");
+  const [isUploadingCoverImage, setIsUploadingCoverImage] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <DashboardLayout title="Write">
       <div className="flex mt-5 flex-col gap-y-5">
@@ -14,9 +23,46 @@ const Write = () => {
             Publish
           </button>
         </div>
-        <button className="text-left text-that-grey-1 font-medium hover:bg-white/20 transition-colors px-1 w-fit flex items-center gap-x-2">
-          <LuPlus /> Add cover image
-        </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          hidden
+          onChange={async (e) => {
+            const image = e.target.files?.[0];
+            if (!image) return;
+            if (image.type.split("/")[0] !== "image") {
+              toast.error("Please select an image");
+              return;
+            }
+            setIsUploadingCoverImage(true);
+            try {
+              const { data } = await uploadfly.upload(image);
+              setCoverImage(data.url);
+              setIsUploadingCoverImage(false);
+            } catch (error) {
+              toast.error("Something went wrong");
+            } finally {
+              setIsUploadingCoverImage(false);
+            }
+          }}
+        />
+        {isUploadingCoverImage && (
+          <div className="flex items-center gap-x-2">
+            <CgSpinnerAlt className="animate-spin text-2xl" /> Uploading...
+          </div>
+        )}
+
+        {coverImage ? (
+          <img src={coverImage} className="w-full h-60 object-cover" />
+        ) : (
+          <button
+            className="text-left text-that-grey-1 font-medium hover:bg-white/20 transition-colors px-1 w-fit flex items-center gap-x-2"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <LuPlus /> Add cover image
+          </button>
+        )}
+
         <input
           type="text"
           className="bg-transparent border border-dashed border-that-grey text-2xl p-3 placeholder:text-that-grey font-semibold w-full"
