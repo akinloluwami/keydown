@@ -44,6 +44,9 @@ dependencies:
   '@tiptap/starter-kit':
     specifier: ^2.2.4
     version: 2.2.4(@tiptap/pm@2.2.4)
+  '@uploadfly/js':
+    specifier: ^1.0.7
+    version: 1.0.7
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -1897,6 +1900,10 @@ packages:
       '@typescript-eslint/types': 6.21.0
       eslint-visitor-keys: 3.4.3
     dev: true
+
+  /@uploadfly/js@1.0.7:
+    resolution: {integrity: sha512-IcpzWpTf2DsZ8p/Ox+FVgzYojnxQUZAAkzhInczcFQ5Vdz6+0cirRY2S55R0pfaVcsSg4pebgpnv7TrdO3MEYQ==}
+    dev: false
 
   /acorn-jsx@5.3.2(acorn@8.11.3):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
