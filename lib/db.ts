@@ -60,15 +60,21 @@ export const posts = pgTable("posts", {
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp("updated_at", {
     withTimezone: true,
     mode: "date",
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   publishDate: timestamp("publish_date", {
     withTimezone: true,
     mode: "date",
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   coverImage: text("cover_image"),
 });
 
