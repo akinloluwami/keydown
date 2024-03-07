@@ -19,6 +19,7 @@ import TextSelectMenu from "./TextSelectMenu";
 import Highlight from "@tiptap/extension-highlight";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
+import { useEditorContent } from "@/store/useEditorContent";
 
 const lowlight = createLowlight();
 
@@ -46,10 +47,12 @@ export const Editor = () => {
     }),
   ];
 
+  const { setContent } = useEditorContent();
+
   const editor = useEditor({
     extensions,
     content: "<p>Hey, babe!</p>",
-    onUpdate: () => console.log(editor?.getHTML()),
+    onUpdate: () => setContent(editor?.getHTML()!),
   });
 
   if (!editor) return <div className="">Loading editor...</div>;
