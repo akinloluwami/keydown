@@ -31,8 +31,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: "Post content is required" });
   }
 
-  let slug = generateSlug(title);
-
   if (postId) {
     const postExist = await db
       .select({ id: posts.id })
@@ -43,6 +41,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ message: "Post not found" });
     }
   }
+
+  let slug = generateSlug(title);
 
   const existingPost = await db
     .select({ slug: posts.slug, publishDate: posts.publishDate })
