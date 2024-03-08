@@ -11,11 +11,7 @@ const generateSlug = (str: string) => {
     .replace(/[^a-z0-9\s-]+/g, "")
     .trim()
     .replace(/\s+/g, "-");
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join("-")
-    .toLowerCase();
+  return slug.split("-").join("-").toLowerCase();
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
