@@ -1,12 +1,22 @@
 import { db, posts, users } from "@/lib/db";
 import { validateRequest } from "@/utils/validateRequest";
+import { randomBytes } from "crypto";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { NextApiRequest, NextApiResponse } from "next";
 import { isURL } from "validator";
 
 const generateSlug = (str: string) => {
-  return str.toLowerCase().replace(" ", "-");
+  const slug = str
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]+/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("-")
+    .toLowerCase();
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -31,12 +41,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ message: "Post content is required" });
   }
 
+  let slug = generateSlug(title);
+
+  const existingPost = await db
+    .select({ slug: posts.slug })
+    .from(posts)
+    .where(eq(posts.slug, slug));
+
+  if (existingPost.length > 0) {
+    slug = `${slug}-${randomBytes(2).toString("hex")}`;
+  }
+
   try {
     await db.insert(posts).values({
       id: generateId(32),
       userId: user.id,
       title,
-      slug: generateSlug(title),
+      slug,
       content,
       coverImage,
       isDraft,
