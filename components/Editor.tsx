@@ -20,6 +20,7 @@ import Highlight from "@tiptap/extension-highlight";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
 import { useEditorContent } from "@/store/useEditorContent";
+import _debounce from "lodash/debounce";
 
 const lowlight = createLowlight();
 
@@ -29,7 +30,13 @@ lowlight.register("js", js);
 lowlight.register("ts", ts);
 lowlight.register("elixir", elixir);
 
-export const Editor = () => {
+export const Editor = ({
+  isPostPublished,
+  autoSave,
+}: {
+  isPostPublished: boolean;
+  autoSave: () => void;
+}) => {
   const extensions = [
     StarterKit,
     CodeBlockLowlight.extend({
@@ -49,10 +56,16 @@ export const Editor = () => {
 
   const { setContent } = useEditorContent();
 
+  const debouncedAutoSave = _debounce(autoSave, 1000);
+
   const editor = useEditor({
     extensions,
     content: "<p>Hey, babe!</p>",
-    onUpdate: () => setContent(editor?.getHTML()!),
+    onUpdate: () => {
+      setContent(editor?.getHTML()!);
+
+      !isPostPublished && debouncedAutoSave();
+    },
   });
 
   if (!editor) return <div className="">Loading editor...</div>;

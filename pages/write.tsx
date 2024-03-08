@@ -154,7 +154,10 @@ const Write = () => {
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          <Editor />
+          <Editor
+            isPostPublished={isPublished}
+            autoSave={() => console.log(content)}
+          />
         </div>
       </div>
     </div>
