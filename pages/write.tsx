@@ -156,7 +156,7 @@ const Write = () => {
 
           <Editor
             isPostPublished={isPublished}
-            autoSave={() => console.log(content)}
+            autoSave={(content) => console.log(content)}
           />
         </div>
       </div>
