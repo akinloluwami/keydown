@@ -13,18 +13,34 @@ const Write = () => {
   const [isUploadingCoverImage, setIsUploadingCoverImage] = useState(false);
   const [title, setTitle] = useState("");
   const { content } = useEditorContent();
-
+  const [isPublishing, setIsPublishing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const publishPost = async () => {
+    if (!title) {
+      toast.error("Please enter a title");
+      return;
+    }
+
+    if (!content) {
+      toast.error("Please enter some content");
+      return;
+    }
+
+    setIsPublishing(true);
+
     try {
-      await axios.post("/api/posts", {
+      await axios.post("/api/posts/new", {
         title,
         coverImage,
         content,
       });
       toast.success("Post published");
-    } catch (error) {}
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsPublishing(false);
+    }
   };
 
   return (
@@ -34,8 +50,13 @@ const Write = () => {
           <button className="text-that-grey-1 font-semibold text-xl">
             Save Draft
           </button>
-          <button className="bg-white text-black py-3 font-semibold text-xl flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity px-10">
-            Publish
+          <button
+            className="bg-white text-black py-2 font-semibold text-xl flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity px-10 gap-x-3"
+            disabled={isPublishing}
+            onClick={publishPost}
+          >
+            {isPublishing && <CgSpinnerAlt className="animate-spin" />}
+            Publish{isPublishing && "ing..."}
           </button>
         </div>
         <input
@@ -100,6 +121,8 @@ const Write = () => {
           type="text"
           className="bg-transparent border border-dashed border-that-grey text-2xl p-3 placeholder:text-that-grey font-semibold w-full"
           placeholder="Post title here..."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
 
         <Editor />
