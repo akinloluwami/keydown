@@ -4,7 +4,6 @@ import { randomBytes } from "crypto";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { NextApiRequest, NextApiResponse } from "next";
-import { isURL } from "validator";
 
 const generateSlug = (str: string) => {
   const slug = str
