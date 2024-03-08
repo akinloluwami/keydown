@@ -1,7 +1,7 @@
 import { db, posts } from "@/lib/db";
 import { validateRequest } from "@/utils/validateRequest";
 import { randomBytes } from "crypto";
-import { eq } from "drizzle-orm";
+import { and, eq, not } from "drizzle-orm";
 import { generateId } from "lucia";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -29,12 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).end();
   }
 
-  const { title, content, coverImage, isDraft } = req.body;
-
-  if (!title) {
-    res.status(400).json({ message: "Post title is required" });
-    return;
-  }
+  const { title, content, coverImage, isDraft, postId } = req.body;
 
   if (!content) {
     res.status(400).json({ message: "Post content is required" });
@@ -42,31 +37,70 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   let slug = generateSlug(title);
 
+  if (postId) {
+    const postExist = await db
+      .select({ id: posts.id })
+      .from(posts)
+      .where(and(eq(posts.id, postId), eq(posts.userId, user.id)));
+
+    if (postExist.length === 0) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+  }
+
   const existingPost = await db
     .select({ slug: posts.slug })
     .from(posts)
-    .where(eq(posts.slug, slug));
+    .where(and(eq(posts.slug, slug), not(eq(posts.id, postId))));
 
   if (existingPost.length > 0) {
     slug = `${slug}-${randomBytes(2).toString("hex")}`;
   }
 
   try {
-    const newPost = await db
-      .insert(posts)
-      .values({
-        id: generateId(32),
-        userId: user.id,
-        title,
-        slug,
-        content,
-        coverImage,
-        isDraft,
-      })
-      .returning({ id: posts.id, title: posts.title, slug: posts.slug });
-    res
-      .status(200)
-      .json({ message: "Post created successfully", post: newPost });
+    if (postId) {
+      const post = await db
+        .update(posts)
+        .set({
+          content,
+          title: title,
+          slug,
+          coverImage,
+          isDraft,
+          updatedAt: new Date(),
+        })
+        .returning({
+          id: posts.id,
+          title: posts.title,
+          slug: posts.slug,
+          isDraft: posts.isDraft,
+        });
+      res
+        .status(200)
+        .json({ message: "Post updated successfully", post: post });
+    } else {
+      const post = await db
+        .insert(posts)
+        .values({
+          id: generateId(32),
+          userId: user.id,
+          title: title || "[Untitled]",
+          slug,
+          content,
+          coverImage,
+          isDraft,
+          publishDate: postId && !isDraft ? new Date() : null,
+        })
+        .returning({
+          id: posts.id,
+          title: posts.title,
+          slug: posts.slug,
+          isDraft: posts.isDraft,
+        });
+      res
+        .status(201)
+        .json({ message: "Post created successfully", post: post[0] });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
