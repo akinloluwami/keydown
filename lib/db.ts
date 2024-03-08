@@ -72,9 +72,7 @@ export const posts = pgTable("posts", {
   publishDate: timestamp("publish_date", {
     withTimezone: true,
     mode: "date",
-  })
-    .notNull()
-    .defaultNow(),
+  }),
   coverImage: text("cover_image"),
 });
 
