@@ -9,6 +9,7 @@ import { CgSpinnerAlt } from "react-icons/cg";
 import { LuPlus, LuRepeat2, LuTrash } from "react-icons/lu";
 import { toast } from "sonner";
 import { IoChevronBack } from "react-icons/io5";
+import { useRouter } from "next/router";
 
 const Write = () => {
   const [coverImage, setCoverImage] = useState("");
@@ -18,8 +19,44 @@ const Write = () => {
   const [isPublishing, setIsPublishing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPublished, setIsPublished] = useState(false);
+  const [postId, setPostId] = useState("");
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
 
-  const createPost = async ({ isDraft }: { isDraft?: boolean }) => {
+  const router = useRouter();
+
+  const createPost = async ({
+    isDraft,
+    content,
+  }: {
+    isDraft?: boolean;
+    content: string;
+  }) => {
+    if (!isPublished) {
+      setIsSavingDraft(true);
+    }
+
+    try {
+      const { data } = await axios.post("/api/posts/new", {
+        title,
+        coverImage,
+        content,
+        isDraft,
+        postId,
+      });
+
+      if (!postId) {
+        setPostId(data.post.id);
+        router.push(`/write?id=${data.post.id}`);
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsPublishing(false);
+      setIsSavingDraft(false);
+    }
+  };
+
+  const publishPost = async () => {
     if (!title) {
       toast.error("Please enter a title");
       return;
@@ -29,33 +66,20 @@ const Write = () => {
       toast.error("Please enter some content");
       return;
     }
-
-    setIsPublishing(true);
-
     try {
-      await axios.post("/api/posts/new", {
-        title,
-        coverImage,
-        content,
-        isDraft,
-      });
+      setIsPublishing(true);
+      await createPost({ isDraft: false, content });
       toast.success("Post published");
       setIsPublished(true);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
-    } finally {
-      setIsPublishing(false);
     }
-  };
-
-  const publishPost = async () => {
-    await createPost({ isDraft: false });
   };
 
   return (
     <div className="px-5">
       <div className="flex mt-5 flex-col gap-y-5">
-        <div className="flex items-center gap-x-5 justify-between lg:px-14 py-3">
+        <div className="flex items-center gap-x-5 justify-between lg:px-14 py-3 sticky top-0 bg-black/20 backdrop-blur-xl z-10">
           <div className="flex items-center gap-x-5">
             <Link
               href="/dashboard"
@@ -63,11 +87,13 @@ const Write = () => {
             >
               <IoChevronBack /> Posts
             </Link>
-            <p className="text-that-grey-1">New</p>
+            {!postId && "New"}
+            {!isPublished && <>{isSavingDraft ? "Saving draft..." : "Draft"}</>}
+            {isPublished && <Link href={`/post/${postId}`}>Published</Link>}
           </div>
           <div className="flex items-center gap-x-5">
             <button className="text-that-grey-1 font-semibold">
-              {isPublished ? "Unpublish" : "Save draft"}
+              {isPublished ? "Unpublish" : "Preview"}
             </button>
             <button
               className="bg-white text-black py-2 font-semibold flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity px-10 gap-x-3"
@@ -156,7 +182,7 @@ const Write = () => {
 
           <Editor
             isPostPublished={isPublished}
-            autoSave={(content) => console.log(content)}
+            autoSave={(content) => createPost({ content })}
           />
         </div>
       </div>
