@@ -20,7 +20,7 @@ import Highlight from "@tiptap/extension-highlight";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
 import { useEditorContent } from "@/store/useEditorContent";
-import _debounce from "lodash/debounce";
+import { useDebouncedCallback } from "use-debounce";
 
 const lowlight = createLowlight();
 
@@ -56,16 +56,15 @@ export const Editor = ({
 
   const { setContent } = useEditorContent();
 
-  const debouncedAutoSave = _debounce(autoSave, 1000);
+  const debouncedAutoSave = useDebouncedCallback((content: string) => {
+    setContent(editor?.getHTML()!);
+    autoSave(content);
+  }, 1000);
 
   const editor = useEditor({
     extensions,
     content: "<p>Hey, babe!</p>",
-    onUpdate: () => {
-      setContent(editor?.getHTML()!);
-
-      !isPostPublished && debouncedAutoSave(editor?.getHTML()!);
-    },
+    onUpdate: () => !isPostPublished && debouncedAutoSave(editor?.getHTML()!),
   });
 
   if (!editor) {
