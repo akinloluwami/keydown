@@ -1,4 +1,4 @@
-import { db, posts, users } from "@/lib/db";
+import { db, posts } from "@/lib/db";
 import { validateRequest } from "@/utils/validateRequest";
 import { randomBytes } from "crypto";
 import { eq } from "drizzle-orm";
