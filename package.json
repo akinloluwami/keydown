@@ -6,7 +6,9 @@
     "dev": "next dev -p 1800",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db-dev": "npx drizzle-kit push:pg",
+    "studio": "npx drizzle-kit studio"
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",
