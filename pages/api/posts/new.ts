@@ -52,16 +52,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    await db.insert(posts).values({
-      id: generateId(32),
-      userId: user.id,
-      title,
-      slug,
-      content,
-      coverImage,
-      isDraft,
-    });
-    res.status(200).json({ message: "Post created successfully" });
+    const newPost = await db
+      .insert(posts)
+      .values({
+        id: generateId(32),
+        userId: user.id,
+        title,
+        slug,
+        content,
+        coverImage,
+        isDraft,
+      })
+      .returning({ id: posts.id, title: posts.title, slug: posts.slug });
+    res
+      .status(200)
+      .json({ message: "Post created successfully", post: newPost });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
