@@ -35,7 +35,7 @@ export const Editor = ({
   autoSave,
 }: {
   isPostPublished: boolean;
-  autoSave: () => void;
+  autoSave: (content: string) => void;
 }) => {
   const extensions = [
     StarterKit,
@@ -64,11 +64,13 @@ export const Editor = ({
     onUpdate: () => {
       setContent(editor?.getHTML()!);
 
-      !isPostPublished && debouncedAutoSave();
+      !isPostPublished && debouncedAutoSave(editor?.getHTML()!);
     },
   });
 
-  if (!editor) return <div className="">Loading editor...</div>;
+  if (!editor) {
+    return <div className="">Loading editor...</div>;
+  }
 
   return (
     <div className="mt-10">
