@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).end();
   }
 
-  const { title, content, coverImage, isDraft } = req.body();
+  const { title, content, coverImage, isDraft } = req.body;
 
   if (!title) {
     res.status(400).json({ message: "Post title is required" });
@@ -29,14 +29,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!content) {
     res.status(400).json({ message: "Post content is required" });
-  }
-
-  const isHtml = (content: string) => {
-    return content.startsWith("<") && content.endsWith("/>");
-  };
-
-  if (!isHtml(content)) {
-    res.status(400).json({ message: "Invalid post content" });
   }
 
   try {
@@ -49,5 +41,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       coverImage,
       isDraft,
     });
-  } catch (error) {}
+    res.status(200).json({ message: "Post created successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
 };
+
+export default handler;
