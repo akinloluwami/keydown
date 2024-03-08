@@ -36,7 +36,7 @@ const Write = () => {
     }
 
     try {
-      const { data } = await axios.post("/api/posts/new", {
+      const { data } = await axios.post("/api/posts", {
         title,
         coverImage,
         content,
@@ -69,7 +69,7 @@ const Write = () => {
     try {
       setIsPublishing(true);
       await createPost({ isDraft: false, content });
-      toast.success("Post published");
+      toast.success(isPublished ? "Post updated" : "Post published");
       setIsPublished(true);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
@@ -87,8 +87,10 @@ const Write = () => {
             >
               <IoChevronBack /> Posts
             </Link>
-            {!postId && "New"}
-            {!isPublished && <>{isSavingDraft ? "Saving draft..." : "Draft"}</>}
+            {!postId && !isPublished && "New"}
+            {!isPublished && postId && (
+              <>{isSavingDraft ? "Saving draft..." : "Draft"}</>
+            )}
             {isPublished && <Link href={`/post/${postId}`}>Published</Link>}
           </div>
           <div className="flex items-center gap-x-5">
@@ -101,7 +103,10 @@ const Write = () => {
               onClick={publishPost}
             >
               {isPublished ? (
-                <>Update</>
+                <>
+                  {isPublishing && <CgSpinnerAlt className="animate-spin" />}
+                  {isPublishing ? "Updating..." : "Update"}
+                </>
               ) : (
                 <>
                   {isPublishing && <CgSpinnerAlt className="animate-spin" />}
