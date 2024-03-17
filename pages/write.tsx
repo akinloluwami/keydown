@@ -84,13 +84,12 @@ const Write = () => {
 
   const fetchPost = async (id: string) => {
     try {
-      const { data, status } = await axios.get(`/api/posts/${id}`);
+      const { data } = await axios.get(`/api/posts/${id}`);
       setTitle(data.title);
       setContent(data.content);
       setCoverImage(data.coverImage);
       setIsPublished(data.status === "published" ? true : false);
       setPostId(id);
-      setPostFetchStatusCode(status);
     } catch (error: any) {
       setPostFetchStatusCode(error.response.status);
     }
