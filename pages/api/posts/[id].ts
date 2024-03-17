@@ -20,10 +20,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).end();
   }
 
-  const post = await db
-    .select()
-    .from(posts)
-    .where(and(eq(posts.userId, user.id), eq(posts.id, id)));
+  const post = (
+    await db
+      .select({
+        title: posts.title,
+        content: posts.content,
+        coverImage: posts.coverImage,
+        status: posts.status,
+      })
+      .from(posts)
+      .where(and(eq(posts.userId, user.id), eq(posts.id, id)))
+  ).flat()[0];
 
   if (!post) {
     return res.status(404).end();
