@@ -9,6 +9,7 @@ import { LuPlus, LuRepeat2, LuTrash } from "react-icons/lu";
 import { toast } from "sonner";
 import { IoChevronBack } from "react-icons/io5";
 import { useRouter } from "next/router";
+import WeCouldNotFindThatPost from "@/components/WeCouldNotFindThatPost";
 
 const Write = () => {
   const [coverImage, setCoverImage] = useState("");
@@ -78,16 +79,19 @@ const Write = () => {
     }
   };
 
+  const [postFetchStausCode, setPostFetchStatusCode] = useState<number>();
+
   const fetchPost = async (id: string) => {
     try {
-      const { data } = await axios.get(`/api/posts/${id}`);
+      const { data, status } = await axios.get(`/api/posts/${id}`);
       setTitle(data.title);
       setContent(data.content);
       setCoverImage(data.coverImage);
       setIsPublished(data.status === "published" ? true : false);
       setPostId(id);
-    } catch (error) {
-      toast.error("Something went wrong");
+      setPostFetchStatusCode(status);
+    } catch (error: any) {
+      setPostFetchStatusCode(error.response.status);
     }
   };
 
@@ -97,6 +101,8 @@ const Write = () => {
       fetchPost(id);
     }
   }, [router]);
+
+  if (postFetchStausCode === 404) return <WeCouldNotFindThatPost />;
 
   return (
     <div className="px-5 pb-20">
