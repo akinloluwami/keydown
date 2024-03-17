@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { IoChevronBack } from "react-icons/io5";
 import { useRouter } from "next/router";
 import WeCouldNotFindThatPost from "@/components/WeCouldNotFindThatPost";
+import SomethingsWrong from "@/components/SomethingsWrong";
 
 const Write = () => {
   const [coverImage, setCoverImage] = useState("");
@@ -103,6 +104,8 @@ const Write = () => {
   }, [router]);
 
   if (postFetchStausCode === 404) return <WeCouldNotFindThatPost />;
+
+  if (postFetchStausCode === 500) return <SomethingsWrong />;
 
   return (
     <div className="px-5 pb-20">
