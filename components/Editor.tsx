@@ -33,9 +33,11 @@ lowlight.register("elixir", elixir);
 export const Editor = ({
   isPostPublished,
   autoSave,
+  content,
 }: {
   isPostPublished: boolean;
   autoSave: (content: string) => void;
+  content?: string;
 }) => {
   const extensions = [
     StarterKit,
@@ -62,8 +64,8 @@ export const Editor = ({
   }, 1000);
 
   const editor = useEditor({
+    content,
     extensions,
-    content: "<p>Hey, babe!</p>",
     onUpdate: () => !isPostPublished && debouncedAutoSave(editor?.getHTML()!),
   });
 
