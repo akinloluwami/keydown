@@ -99,7 +99,7 @@ const Write = () => {
   }, [router]);
 
   return (
-    <div className="px-5">
+    <div className="px-5 pb-20">
       <div className="flex mt-5 flex-col gap-y-5">
         <div className="flex items-center gap-x-5 justify-between lg:px-14 py-3 sticky top-0 bg-black/20 backdrop-blur-xl z-10">
           <div className="flex items-center gap-x-5">
