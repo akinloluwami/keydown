@@ -21,6 +21,7 @@ import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
 import { useEditorContent } from "@/store/useEditorContent";
 import { useDebouncedCallback } from "use-debounce";
+import { useEffect } from "react";
 
 const lowlight = createLowlight();
 
@@ -37,7 +38,7 @@ export const Editor = ({
 }: {
   isPostPublished: boolean;
   autoSave: (content: string) => void;
-  content?: string;
+  content: string;
 }) => {
   const extensions = [
     StarterKit,
@@ -64,13 +65,18 @@ export const Editor = ({
   }, 1000);
 
   const editor = useEditor({
-    content,
     extensions,
     onUpdate: () => !isPostPublished && debouncedAutoSave(editor?.getHTML()!),
   });
 
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content]);
+
   if (!editor) {
-    return <div className="">Loading editor...</div>;
+    return <p className="text-xl mt-1 text-gray-300">Loading editor...</p>;
   }
 
   return (
