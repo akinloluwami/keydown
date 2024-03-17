@@ -60,13 +60,19 @@ export const Editor = ({
   const { setContent } = useEditorContent();
 
   const debouncedAutoSave = useDebouncedCallback((content: string) => {
-    setContent(editor?.getHTML()!);
     autoSave(content);
+  }, 1000);
+
+  const debouncedUpdate = useDebouncedCallback(() => {
+    setContent(editor?.getHTML()!);
   }, 1000);
 
   const editor = useEditor({
     extensions,
-    onUpdate: () => !isPostPublished && debouncedAutoSave(editor?.getHTML()!),
+    onUpdate: () => {
+      debouncedUpdate();
+      !isPostPublished && debouncedAutoSave(editor?.getHTML()!);
+    },
   });
 
   useEffect(() => {
