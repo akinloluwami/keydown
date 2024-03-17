@@ -7,7 +7,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const generateSlug = (str: string) => {
   const slug = str
-    .toLowerCase()
     .replace(/[^a-z0-9\s-]+/g, "")
     .trim()
     .replace(/\s+/g, "-");
@@ -25,10 +24,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).end();
   }
 
-  const { title, content, coverImage, isDraft, postId } = req.body;
+  const { title, content, coverImage, status, postId } = req.body as {
+    title: string;
+    content: string;
+    coverImage: string;
+    status: "draft" | "published";
+    postId: string;
+  };
 
-  if (!content) {
-    res.status(400).json({ message: "Post content is required" });
+  if (status === "published" && !content) {
+    return res.status(400).json({ message: "Post content is required" });
   }
 
   if (postId) {
@@ -44,12 +49,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   let slug = generateSlug(title);
 
-  const existingPost = await db
-    .select({ slug: posts.slug, publishDate: posts.publishDate })
+  const findSlug = await db
+    .select({ slug: posts.slug })
     .from(posts)
     .where(and(eq(posts.slug, slug), not(eq(posts.id, postId))));
 
-  if (existingPost.length > 0) {
+  if (findSlug.length > 0) {
     slug = `${slug}-${randomBytes(2).toString("hex")}`;
   }
 
@@ -59,19 +64,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .update(posts)
         .set({
           content,
-          title: title,
+          title,
           slug,
           coverImage,
-          isDraft,
           updatedAt: new Date(),
-          publishDate: isDraft ? null : new Date(),
+          publishDate: status === "published" ? new Date() : null,
         })
         .where(eq(posts.id, postId))
         .returning({
           id: posts.id,
           title: posts.title,
           slug: posts.slug,
-          isDraft: posts.isDraft,
         });
       res
         .status(200)
@@ -86,7 +89,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           slug,
           content,
           coverImage,
-          isDraft,
           updatedAt: new Date(),
           publishDate: null,
         })
@@ -94,7 +96,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           id: posts.id,
           title: posts.title,
           slug: posts.slug,
-          isDraft: posts.isDraft,
         });
       res
         .status(201)
