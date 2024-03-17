@@ -27,6 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         content: posts.content,
         coverImage: posts.coverImage,
         status: posts.status,
+        slug: posts.slug,
       })
       .from(posts)
       .where(and(eq(posts.userId, user.id), eq(posts.id, id)))
