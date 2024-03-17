@@ -1,5 +1,4 @@
 import { Editor } from "@/components/Editor";
-import DashboardLayout from "@/layouts/Dashboard";
 import { useEditorContent } from "@/store/useEditorContent";
 import { uploadfly } from "@/utils/uploadfly";
 import axios from "axios";
