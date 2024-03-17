@@ -1,6 +1,13 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import pg from "pg";
-import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/node-postgres";
 
 const pool = new pg.Pool({
@@ -48,6 +55,8 @@ export const sessions = pgTable("sessions", {
   }).notNull(),
 });
 
+export const postStatusEnum = pgEnum("status", ["draft", "published"]);
+
 export const posts = pgTable("posts", {
   id: text("id").primaryKey(),
   userId: text("user_id")
@@ -56,7 +65,7 @@ export const posts = pgTable("posts", {
   title: text("title").notNull(),
   slug: text("slug").notNull(),
   content: text("content"),
-  isDraft: boolean("is_draft").default(true),
+  status: postStatusEnum("status").default("draft"),
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
