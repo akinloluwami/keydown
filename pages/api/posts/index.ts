@@ -6,11 +6,11 @@ import { generateId } from "lucia";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const generateSlug = (str: string) => {
-  const slug = str
+  return str
+    .toLowerCase()
     .replace(/[^a-z0-9\s-]+/g, "")
     .trim()
     .replace(/\s+/g, "-");
-  return slug.split("-").join("-").toLowerCase();
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
