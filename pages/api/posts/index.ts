@@ -69,6 +69,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           coverImage,
           updatedAt: new Date(),
           publishDate: status === "published" ? new Date() : null,
+          status,
         })
         .where(eq(posts.id, postId))
         .returning({
