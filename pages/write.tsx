@@ -3,7 +3,7 @@ import { useEditorContent } from "@/store/useEditorContent";
 import { uploadfly } from "@/utils/uploadfly";
 import axios from "axios";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CgSpinnerAlt } from "react-icons/cg";
 import { LuPlus, LuRepeat2, LuTrash } from "react-icons/lu";
 import { toast } from "sonner";
@@ -14,7 +14,6 @@ const Write = () => {
   const [coverImage, setCoverImage] = useState("");
   const [isUploadingCoverImage, setIsUploadingCoverImage] = useState(false);
   const [title, setTitle] = useState("");
-  const { content } = useEditorContent();
   const [isPublishing, setIsPublishing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPublished, setIsPublished] = useState(false);
@@ -23,9 +22,12 @@ const Write = () => {
 
   const router = useRouter();
 
+  const { content, setContent } = useEditorContent();
+
   const createPost = async ({
     content,
     _coverImage,
+    status,
   }: {
     content?: string;
     _coverImage?: string;
@@ -41,6 +43,7 @@ const Write = () => {
         coverImage: _coverImage || coverImage,
         content,
         postId,
+        status,
       });
 
       if (!postId) {
@@ -61,7 +64,7 @@ const Write = () => {
       return;
     }
 
-    if (!content) {
+    if (!content || content === "<p></p>") {
       toast.error("Please enter some content");
       return;
     }
@@ -74,6 +77,26 @@ const Write = () => {
       toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
+
+  const fetchPost = async (id: string) => {
+    try {
+      const { data } = await axios.get(`/api/posts/${id}`);
+      setTitle(data.title);
+      setContent(data.content);
+      setCoverImage(data.coverImage);
+      setIsPublished(data.status === "published" ? true : false);
+      setPostId(id);
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    if (router.query.id) {
+      const id = router.query.id as string;
+      fetchPost(id);
+    }
+  }, [router]);
 
   return (
     <div className="px-5">
@@ -168,7 +191,6 @@ const Write = () => {
                     onClick={() => setCoverImage("")}
                   />
                 </div>
-
                 <img src={coverImage} className="w-full h-full object-cover" />
               </div>
             )}
@@ -181,18 +203,17 @@ const Write = () => {
               </button>
             )}
           </div>
-
           <input
             type="text"
             className="bg-transparent border border-dashed border-that-grey text-2xl p-3 placeholder:text-that-grey font-semibold w-full"
             placeholder="Post title here..."
-            value={title}
+            defaultValue={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-
           <Editor
             isPostPublished={isPublished}
             autoSave={(content) => createPost({ content })}
+            content={content}
           />
         </div>
       </div>
