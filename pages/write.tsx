@@ -25,11 +25,12 @@ const Write = () => {
   const router = useRouter();
 
   const createPost = async ({
-    isDraft,
     content,
+    _coverImage,
   }: {
-    isDraft?: boolean;
-    content: string;
+    content?: string;
+    _coverImage?: string;
+    status?: "draft" | "published";
   }) => {
     if (!isPublished) {
       setIsSavingDraft(true);
@@ -38,9 +39,8 @@ const Write = () => {
     try {
       const { data } = await axios.post("/api/posts", {
         title,
-        coverImage,
+        coverImage: _coverImage || coverImage,
         content,
-        isDraft,
         postId,
       });
 
@@ -68,7 +68,7 @@ const Write = () => {
     }
     try {
       setIsPublishing(true);
-      await createPost({ isDraft: false, content });
+      await createPost({ content, status: "published" });
       toast.success(isPublished ? "Post updated" : "Post published");
       setIsPublished(true);
     } catch (error: any) {
@@ -87,11 +87,13 @@ const Write = () => {
             >
               <IoChevronBack /> Posts
             </Link>
-            {!postId && !isPublished && "New"}
-            {!isPublished && postId && (
-              <>{isSavingDraft ? "Saving draft..." : "Draft"}</>
-            )}
-            {isPublished && <Link href={`/post/${postId}`}>Published</Link>}
+            <p className="text-that-grey-1">
+              {!postId && !isPublished && "New"}
+              {!isPublished && postId && (
+                <>{isSavingDraft ? "Saving draft..." : "Draft"}</>
+              )}
+              {isPublished && <Link href={`/post/${postId}`}>Published</Link>}
+            </p>
           </div>
           <div className="flex items-center gap-x-5">
             <button className="text-that-grey-1 font-semibold">
@@ -135,6 +137,10 @@ const Write = () => {
                   const { data } = await uploadfly.upload(image);
                   setCoverImage(data.url);
                   setIsUploadingCoverImage(false);
+                  !isPublished &&
+                    createPost({
+                      _coverImage: data.url,
+                    });
                 } catch (error) {
                   toast.error("Something went wrong");
                 } finally {
