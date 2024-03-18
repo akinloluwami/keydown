@@ -44,7 +44,7 @@ const DashboardLayout = ({
                 className={`w-full flex p-3 items-center border border-dashed ${
                   router.pathname.split("/")[1] === page.route.replace("/", "")
                     ? "border-that-grey"
-                    : "border-transparent"
+                    : "border-transparent hover:border-that-grey/80 transition-colors duration-200 ease-in-out"
                 }`}
               >
                 <span className="mr-3">{page.icon}</span>
@@ -63,7 +63,7 @@ const DashboardLayout = ({
                 router.push("/login");
               }}
             >
-              <button className="flex items-center w-full p-3">
+              <button className="flex items-center w-full p-3 border border-dashed hover:border-that-grey/80 transition-colors duration-200 ease-in-out border-transparent">
                 <LiaHandPeaceSolid className="mr-3" />
                 Logout
               </button>
