@@ -1,8 +1,10 @@
 import DashboardLayout from "@/layouts/Dashboard";
+import { fetcher } from "@/lib/fetcher";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { RiEditBoxLine } from "react-icons/ri";
+import useSWR from "swr";
 
 const Dashboard = () => {
   interface PostProps {
@@ -14,16 +16,7 @@ const Dashboard = () => {
     updatedAt: string;
   }
 
-  const [posts, setPosts] = useState<PostProps[]>([]);
-
-  const fetchPosts = async () => {
-    const { data } = await axios("/api/posts");
-    setPosts(data);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const { data: posts, isLoading } = useSWR<PostProps[]>("/api/posts", fetcher);
 
   const status: {
     [key: string]: {
@@ -54,7 +47,7 @@ const Dashboard = () => {
           </Link>
         </div>
         <div className="flex gap-y-5 flex-col">
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <Link
               href={`/write?id=${post.id}`}
               key={post.id}
