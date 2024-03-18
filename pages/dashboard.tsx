@@ -35,7 +35,7 @@ const Dashboard = () => {
   };
 
   return (
-    <DashboardLayout title="Dashboard">
+    <DashboardLayout title="Dashboard" loading={isLoading}>
       <div className="">
         <div className="flex items-center justify-between mb-7">
           <h2 className="text-3xl font-medium mb-4">Posts</h2>
