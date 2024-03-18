@@ -3,7 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, ReactNode } from "react";
 import { CgSpinnerTwo } from "react-icons/cg";
-import { FaCaretRight } from "react-icons/fa";
+import { MdOutlineStackedLineChart } from "react-icons/md";
+import { TbLayoutList, TbSettings2 } from "react-icons/tb";
+import { LiaHandPeaceSolid } from "react-icons/lia";
 
 const DashboardLayout = ({
   children,
@@ -15,9 +17,13 @@ const DashboardLayout = ({
   title: string;
 }) => {
   const pages = [
-    { name: "Dashboard", route: "/dashboard" },
-    { name: "Write", route: "/write" },
-    { name: "Settings", route: "/settings" },
+    { name: "Dashboard", route: "/dashboard", icon: <TbLayoutList /> },
+    {
+      name: "Analytics",
+      route: "/analytics",
+      icon: <MdOutlineStackedLineChart />,
+    },
+    { name: "Settings", route: "/settings", icon: <TbSettings2 /> },
   ];
 
   const router = useRouter();
@@ -28,21 +34,20 @@ const DashboardLayout = ({
         <title>{title}</title>
       </Head>
       <div className="flex">
-        <div className="flex flex-col text-xl gap-y-7 px-20 py-5 border-r border-dashed border-that-grey w-1/4 h-screen fixed">
+        <div className="flex flex-col text-xl gap-y-7 px-10 py-5 border-r border-dashed border-that-grey w-1/4 h-screen fixed">
           <h3 className="font-bold text-2xl">keydown</h3>
-          <div className="flex flex-col text-xl gap-y-12 mt-10">
+          <div className="flex flex-col text-xl gap-y-7 mt-7">
             {pages.map((page, i) => (
               <Link
                 href={page.route}
                 key={i}
-                className="w-fit flex items-center"
+                className={`w-full flex p-3 items-center border border-dashed ${
+                  router.pathname.split("/")[1] === page.route.replace("/", "")
+                    ? "border-that-grey"
+                    : "border-transparent"
+                }`}
               >
-                {router.pathname.split("/")[1] ===
-                  page.route.replace("/", "") && (
-                  <span className="mr-2">
-                    <FaCaretRight />
-                  </span>
-                )}
+                <span className="mr-3">{page.icon}</span>
                 {page.name}
               </Link>
             ))}
@@ -58,7 +63,10 @@ const DashboardLayout = ({
                 router.push("/login");
               }}
             >
-              <button className="text-left w-fit">Logout</button>
+              <button className="flex items-center w-full p-3">
+                <LiaHandPeaceSolid className="mr-3" />
+                Logout
+              </button>
             </form>
           </div>
         </div>
