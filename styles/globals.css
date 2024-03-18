@@ -46,6 +46,21 @@ body ol {
   line-height: 1.5;
 }
 
+.ProseMirror h1 {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.ProseMirror h2 {
+  font-size: 2.5rem;
+  line-height: 1.5;
+}
+
+.ProseMirror h3 {
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
 pre {
   background: #0d0d0d;
   color: #fff;
