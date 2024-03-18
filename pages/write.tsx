@@ -21,6 +21,7 @@ const Write = () => {
   const [isPublished, setIsPublished] = useState(false);
   const [postId, setPostId] = useState("");
   const [isSavingDraft, setIsSavingDraft] = useState(false);
+  const [isUnpublishing, setIsUnpublishing] = useState(false);
 
   const router = useRouter();
 
@@ -80,6 +81,19 @@ const Write = () => {
     }
   };
 
+  const unpublishPost = async () => {
+    setIsUnpublishing(true);
+    try {
+      await axios.patch(`api/posts/${postId}/unpublish`);
+      toast.success("Post unpublished");
+      setIsPublished(false);
+    } catch (error: any) {
+      toast.error("Failed to unpublish post");
+    } finally {
+      setIsUnpublishing(false);
+    }
+  };
+
   const [postFetchStausCode, setPostFetchStatusCode] = useState<number>();
 
   const fetchPost = async (id: string) => {
@@ -126,12 +140,33 @@ const Write = () => {
             </p>
           </div>
           <div className="flex items-center gap-x-5">
-            <button className="text-that-grey-1 font-semibold">
-              {isPublished ? "Unpublish" : "Preview"}
+            <button
+              className="text-that-grey-1 font-semibold"
+              onClick={() => {
+                if (isPublished) {
+                  unpublishPost();
+                } else {
+                  window.open(`/preview/${postId}`, "_blank");
+                }
+              }}
+            >
+              {isPublished ? (
+                <>
+                  {isUnpublishing ? (
+                    <div className="flex items-center gap-x-2">
+                      <CgSpinnerAlt className="animate-spin" /> Unpublishing...
+                    </div>
+                  ) : (
+                    "Unpublish"
+                  )}
+                </>
+              ) : (
+                "Preview"
+              )}
             </button>
             <button
               className="bg-white text-black py-2 font-semibold flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity px-10 gap-x-3"
-              disabled={isPublishing}
+              disabled={isPublishing || isSavingDraft || isUnpublishing}
               onClick={publishPost}
             >
               {isPublished ? (
