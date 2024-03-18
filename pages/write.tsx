@@ -11,6 +11,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { useRouter } from "next/router";
 import WeCouldNotFindThatPost from "@/components/WeCouldNotFindThatPost";
 import SomethingsWrong from "@/components/SomethingsWrong";
+import Published from "@/components/Published";
 
 const Write = () => {
   const [coverImage, setCoverImage] = useState("");
@@ -61,6 +62,16 @@ const Write = () => {
     }
   };
 
+  const [showPublishedScreen, setShowPublishedScreen] = useState(false);
+
+  useEffect(() => {
+    if (showPublishedScreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showPublishedScreen]);
+
   const publishPost = async () => {
     if (!title) {
       toast.error("Please enter a title");
@@ -74,10 +85,13 @@ const Write = () => {
     try {
       setIsPublishing(true);
       await createPost({ content, status: "published" });
-      toast.success(isPublished ? "Post updated" : "Post published");
+      isPublished && toast.success("Post updated");
       setIsPublished(true);
+      !isPublished && setShowPublishedScreen(true);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -121,13 +135,19 @@ const Write = () => {
   if (postFetchStausCode === 500) return <SomethingsWrong />;
 
   return (
-    <div className="px-5 pb-20">
+    <div className="px-5 pb-20 relative">
+      {showPublishedScreen && (
+        <Published
+          onClick={() => setShowPublishedScreen(false)}
+          url="post/[id]"
+        />
+      )}
       <div className="flex mt-5 flex-col gap-y-5">
         <div className="flex items-center gap-x-5 justify-between lg:px-14 py-3 sticky top-0 bg-black/20 backdrop-blur-xl z-10">
           <div className="flex items-center gap-x-5">
             <Link
               href="/dashboard"
-              className="text-left text-that-grey-1 font-medium hover:bg-white/20 transition-colors px-1 w-fit flex items-center gap-x-2"
+              className="text-left text-that-grey-1 font-medium hover:bg-that-grey-1/10 transition-colors px-1 w-fit flex items-center gap-x-2"
             >
               <IoChevronBack /> Posts
             </Link>
@@ -136,7 +156,7 @@ const Write = () => {
               {!isPublished && postId && (
                 <>{isSavingDraft ? "Saving draft..." : "Draft"}</>
               )}
-              {isPublished && <Link href={`/post/${postId}`}>Published</Link>}
+              {isPublished && "Published"}
             </p>
           </div>
           <div className="flex items-center gap-x-5">
