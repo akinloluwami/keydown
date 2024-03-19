@@ -48,6 +48,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       return;
     }
+
+    const isSubdomainTaken = await db
+      .select()
+      .from(users)
+      .where(eq(users.username, subdomain))
+      .limit(1);
+
+    if (isSubdomainTaken.length > 0) {
+      res.status(400).json({
+        message: "Username is already taken",
+      });
+      return;
+    }
+
     await db
       .update(users)
       .set({
