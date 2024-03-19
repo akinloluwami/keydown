@@ -81,6 +81,8 @@ export const posts = pgTable("posts", {
 export const db = drizzle(pool, {
   schema: {
     users,
+    posts,
+    sessions,
   },
 });
 
