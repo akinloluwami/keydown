@@ -46,27 +46,43 @@ const Dashboard = () => {
             Create Post
           </Link>
         </div>
-        <div className="flex gap-y-5 flex-col">
-          {posts?.map((post) => (
-            <Link
-              href={`/write?id=${post.id}`}
-              key={post.id}
-              className="flex items-center justify-between border border-dashed border-that-grey py-2 px-4"
-            >
-              <div className="flex flex-col gap-y-2">
-                <h2 className="font-medium text-xl">{post.title}</h2>
-                <p
-                  className={`text-sm ${
-                    status[post.status].class
-                  } w-fit text-xs uppercase border border-dashed px-5 py-1`}
+        <>
+          {posts?.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-[60vh]">
+              <h1 className="text-center font-bold text-7xl max-w-[500px] mx-auto">
+                What will you write today?
+              </h1>
+              <Link
+                href="/write"
+                className="text-black bg-white font-medium mt-7 px-10 py-2 flex items-center justify-center"
+              >
+                Create first post
+              </Link>
+            </div>
+          ) : (
+            <div className="flex gap-y-5 flex-col">
+              {posts?.map((post) => (
+                <Link
+                  href={`/write?id=${post.id}`}
+                  key={post.id}
+                  className="flex items-center justify-between border border-dashed border-that-grey py-2 px-4"
                 >
-                  {post.status}
-                </p>
-              </div>
-              <RiEditBoxLine size={25} />
-            </Link>
-          ))}
-        </div>
+                  <div className="flex flex-col gap-y-2">
+                    <h2 className="font-medium text-xl">{post.title}</h2>
+                    <p
+                      className={`text-sm ${
+                        status[post.status].class
+                      } w-fit text-xs uppercase border border-dashed px-5 py-1`}
+                    >
+                      {post.status}
+                    </p>
+                  </div>
+                  <RiEditBoxLine size={25} />
+                </Link>
+              ))}
+            </div>
+          )}
+        </>
       </div>
     </DashboardLayout>
   );
