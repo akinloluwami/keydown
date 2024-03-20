@@ -15,7 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const posts = await getPosts(username);
 
-    res.send({ user, posts });
+    console.log(user, posts);
+    res.status(200).json({ user, posts });
   } else {
     res.status(405).end();
   }
