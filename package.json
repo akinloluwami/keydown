@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 1800",
-    "build": "next build",
+    "build": "npm run migrate && next build",
     "start": "next start",
     "lint": "next lint",
     "db-dev": "npx drizzle-kit push:pg",
-    "studio": "npx drizzle-kit studio"
+    "studio": "npx drizzle-kit studio",
+    "migrate": "node scripts/migrate.js"
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",
