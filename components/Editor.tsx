@@ -13,7 +13,7 @@ import js from "highlight.js/lib/languages/javascript";
 import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 import elixir from "highlight.js/lib/languages/elixir";
-import CodeBlock from "./CodeBlock";
+import { CodeBlock } from "./CodeBlock";
 import BlockQuote from "@tiptap/extension-blockquote";
 import TextSelectMenu from "./TextSelectMenu";
 import Highlight from "@tiptap/extension-highlight";
