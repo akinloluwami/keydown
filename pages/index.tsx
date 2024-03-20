@@ -1,6 +1,23 @@
 import Header from "@/components/Header";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import axios from "axios";
+
+interface Post {
+  id: number;
+  title: string;
+  content: string;
+}
+
+interface User {
+  username: string;
+  posts: Post[];
+}
+
+interface HomeProps {
+  user: User | null;
+}
 
 const Home = () => {
   return (
@@ -32,3 +49,43 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps(context: any) {
+  const {
+    req: { headers },
+  } = context;
+
+  console.log("================================================");
+  console.log(headers);
+  console.log("================================================");
+
+  return { props: { user: null } };
+
+  // if (headers.referer !== "http://keydown.local/") {
+  //   const subdomain = headers.referer
+  //     .replace(/(https?:\/\/)?(www\.)?/, "")
+  //     .replace(/\/$/, "")
+  //     .split(".")[0];
+
+  //   if (subdomain !== "www") {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://keydown.local/api/${subdomain}`
+  //       );
+  //       const userData: User = response.data;
+
+  //       return {
+  //         props: { user: userData },
+  //       };
+  //     } catch (error) {
+  //       return {
+  //         props: { user: null },
+  //       };
+  //     }
+  //   }
+  // } else {
+  //   return {
+  //     props: { user: null },
+  //   };
+  // }
+}
