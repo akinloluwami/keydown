@@ -22,6 +22,7 @@ import Link from "@tiptap/extension-link";
 import { useEditorContent } from "@/store/useEditorContent";
 import { useDebouncedCallback } from "use-debounce";
 import { useEffect } from "react";
+import { CgSpinnerAlt } from "react-icons/cg";
 
 const lowlight = createLowlight();
 
@@ -82,7 +83,12 @@ export const Editor = ({
   }, [content]);
 
   if (!editor) {
-    return <p className="text-xl mt-1 text-gray-300">Loading editor...</p>;
+    return (
+      <p className="text-xl mt-1 text-gray-300 flex items-center gap-x-2">
+        {" "}
+        <CgSpinnerAlt /> Loading editor...
+      </p>
+    );
   }
 
   return (
