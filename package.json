@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "db-dev": "npx drizzle-kit push:pg",
+    "db": "npx drizzle-kit generate:pg",
     "studio": "npx drizzle-kit studio",
     "migrate": "node scripts/migrate.js"
   },
